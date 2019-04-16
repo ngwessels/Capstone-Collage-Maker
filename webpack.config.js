@@ -30,7 +30,20 @@ module.exports = {
   },
 
   module: {
+    loaders: [
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                query: {
+                    presets: ['es2015', 'react']
+                }
+            }
+        ],
     rules: [
+      {
+         test: /\.scss$/,
+         use: ['style-loader', 'css-loader', 'sass-loader']
+      },
       {
         test: /\.(png|gif|jp(e*)g|svg)$/,
         use: {

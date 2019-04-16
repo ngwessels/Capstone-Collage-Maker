@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import '../scss/backgrounds.scss';
 
 function Header(){
   return (
-    <h1>Help Queue!</h1>
+    <h1 className='bg-grn'>Help Queue!</h1>
   );
 }
 
