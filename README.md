@@ -31,6 +31,7 @@ _scss_
 _Webpack_
 _React_
 _eslint_
+_AOS_
 
 ### License
 
