@@ -5,10 +5,11 @@ function Ticket(props){
   let ticketStyles = {
     backgroundColor: '#eee',
     fontFamily: 'sans-serif',
-    paddingTop: '25x'
-  }; 
+    paddingTop: '25x',
+    transition: '.3s linear'
+  };
   return (
-    <div style={ticketStyles}>
+    <div style={ticketStyles} className='hover-shadow'>
       <h3>{props.location} - {props.names}</h3>
       <p><em>{props.issue}</em></p>
       <hr/>
