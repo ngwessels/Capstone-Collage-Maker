@@ -9,6 +9,7 @@ function App(){
     <div>
       <Header/>
       <TicketList/>
+      <h1 style={{height: '50px'}}></h1>
     </div>
   );
 }

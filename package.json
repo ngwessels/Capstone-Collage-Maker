@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Lilkgb/react-template",
   "dependencies": {
+    "aos": "^3.0.0-beta.6",
     "css-loader": "^2.1.1",
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
