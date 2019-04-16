@@ -1,5 +1,7 @@
 # _React Template_
 
+## _DO NOT TOUCH THE `Webpack-dev-server` dependency unless you know what your doing. If you update it there will be errors that break the application!_
+
 #### _This is a template using webpack for React, 04/15/19_
 
 #### By _**Ryan McLean**_
