@@ -25,12 +25,12 @@ function test(e) {
   console.log(red, green, blue, alpha);
   let rgba = "rgba( " + red + ", " + green + ", " + blue + ", " + alpha + ")";
   document.getElementById("colorChoice").style.backgroundColor = rgba;
-  getColors(e);
+  getColors();
 
   // console.log(e);
 }
 
-function getColors(e) {
+function getColors() {
   let array = [];
   let canvasGap = document.getElementById("myCanvas");
   var c = document.getElementById("myCanvas");
@@ -40,12 +40,14 @@ function getColors(e) {
   var height = img.clientHeight;
 
   for(let i = 1; i < height + 1; i++) {
+    let row = [];
     for(let e = 1; e < width + 1; e++) {
       let pixelData = ctx.getImageData(e, i, 1, 1);
       let data = pixelData.data;
       let info = [data[0], data[1], data[2], data[3]];
-      array.push(info);
+      row.push(info);
     }
+    array.push(row);
   }
   console.log(array);
 }
