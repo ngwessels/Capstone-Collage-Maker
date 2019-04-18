@@ -25,8 +25,29 @@ function test(e) {
   console.log(red, green, blue, alpha);
   let rgba = "rgba( " + red + ", " + green + ", " + blue + ", " + alpha + ")";
   document.getElementById("colorChoice").style.backgroundColor = rgba;
-  // console.log(e);
+  getColors(e);
 
+  // console.log(e);
+}
+
+function getColors(e) {
+  let array = [];
+  let canvasGap = document.getElementById("myCanvas");
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
+  var img = document.getElementById("myPic");
+  var width = img.clientWidth;
+  var height = img.clientHeight;
+
+  for(let i = 1; i < height + 1; i++) {
+    for(let e = 1; e < width + 1; e++) {
+      let pixelData = ctx.getImageData(e, i, 1, 1);
+      let data = pixelData.data;
+      let info = [data[0], data[1], data[2], data[3]];
+      array.push(info);
+    }
+  }
+  console.log(array);
 }
 
 let canvasStyle = {
@@ -42,7 +63,7 @@ function App(){
     <div>
       <div>
         <div>
-          <canvas style={canvasStyle} onClick={test} id="myCanvas" ref="canvas" width={1000} height={600}/>
+          <canvas style={canvasStyle} onClick={test} id="myCanvas" ref="canvas" width={1000} height={900}/>
           <div style={{width: '100px', height: '100px'}} id="colorChoice"></div>
         </div>
         <img onClick={() => this.test(someparameter)} />
