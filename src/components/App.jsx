@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './Header';
 import { Switch, Route } from 'react-router-dom';
 import Error404 from './Error404';
-import image from "../assets/images/wilderness.jpg";
+import image from "../assets/images/luke.jpg";
 
 
 function main(e) {
@@ -180,7 +180,6 @@ let canvasStyle = {
 };
 
 let imgStyle = {
-
 };
 
 function App(){
