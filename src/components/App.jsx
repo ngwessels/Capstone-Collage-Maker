@@ -8,11 +8,60 @@ import image from "../assets/images/wilderness.jpg";
 function main(e) {
   colorBlock(e);
   const array = getColors();
-  changeColors(20);
-  getDominantColor(array, 20);
+  let value = 5;
+  changeColors(value);
+  const blocks = getBlocks(array, value);
+  const ylength = blocks.length;
+  const xlength = blocks[0].length;
+  // let currentValue = blocks[1][595][0];
+  // console.log(currentValue);
+  let total = 0;
+  let lastY = 0;
+  for(let i = 0; i < ylength; i++) {
+
+    for(let e = 0; e < xlength; e++) {
+      const current = blocks[i][e];
+      const x = current[0];
+      const y = current[1];
+      total++;
+      if(blocks[i][e][0]) {
+        let currentValue = (blocks[i][e][0] + value);
+        let yValue = blocks[i][e][1] + value;
+        getDominantColor(array, currentValue, x, y, yValue);
+        lastY = yValue;
+      } else {
+      }
+
+    }
+
+  }
+  console.log(total, lastY);
+
 }
 
-function getDominantColor(array, value) {
+function getBlocks(array, value) {
+  let startX = 0;
+  let startY = 0;
+  var img = document.getElementById("myPic");
+  var width = img.clientWidth;
+  var height = img.clientHeight;
+  let area = (height * width) / value;
+  let totalHeight = height / value;
+  let totalWidth = width / value;
+  let blocks = [];
+  for(let y = 0; y < height; y = y + value) {
+    let row = [];
+    for(let x = 0; x < width; x = x + value) {
+      let currentBlock = [x, y];
+      row.push(currentBlock);
+    }
+    blocks.push(row);
+  }
+  console.log(blocks);
+  return blocks;
+}
+
+function getDominantColor(array, value, xx, yy, yValue) {
   let canvasGap = document.getElementById("myCanvas");
   var c = document.getElementById("myCanvas");
   var ctx = c.getContext("2d");
@@ -23,8 +72,11 @@ function getDominantColor(array, value) {
   let yCoord = 0;
   let color = [];
   let total = 0;
-  for(let y = 0; y < value; y++) {
-    for(let x = 0; x < value; x++) {
+  for(let y = yy; y < yValue; y++) {
+    for(let x = xx; x < value; x++) {
+      if(!array[y][x]) {
+        console.log(x, y);
+      }
       let instance = array[y][x];
       let iLength = instance.length;
       let red = instance[0];
@@ -33,7 +85,7 @@ function getDominantColor(array, value) {
       const colorLength = color.length;
       let isClose = false;
       for(let colorI = 0; colorI < colorLength; colorI++) {
-        if(red <= (color[colorI][0] - 100) && red >= (color[colorI][0] + 100)) {
+        if(red >= (color[colorI][0] - 5) && red <= (color[colorI][0] + 5) && green >= (color[colorI][1] - 5) && green <= (color[colorI][1] + 5) && blue >= (color[colorI][2] - 5) && blue <= (color[colorI][2] + 5)) {
           let totalColor = color[colorI][3];
           color[colorI][3] = totalColor + 1;
           isClose = true;
@@ -45,16 +97,27 @@ function getDominantColor(array, value) {
       }
     }
   }
-  console.log(color.length);
-  // for(let y = 0; y < value; y++) {
-  //   for(let x = 0; x < value; x++) {
-  //     let newRed = (averageRed / total);
-  //     let newGreen = (averageGreen / total);
-  //     let newBlue = (averageBlue / total);
-  //     console.log(newRed, newGreen, newBlue);
-  //     ctx.fillStyle = "rgba("+newRed+","+newGreen+","+newBlue+","+(255)+")";
-  //     ctx.fillRect( x, y, 1, 1 );
-  //   }}
+  let colorLength = color.length;
+  let longest = [];
+  for(let i = 0; i < colorLength; i++) {
+    let instance = color[i][3];
+    if(longest.length == 0) {
+      longest = color[i];
+    }
+    if(longest[3] < instance) {
+      longest = color[i];
+    }
+  }
+  for(let y = yy; y < yValue; y++) {
+
+    for(let x = xx; x < value; x++) {
+
+      let newRed = longest[0];
+      let newGreen = longest[1];
+      let newBlue = longest[2];
+      ctx.fillStyle = "rgba("+newRed+","+newGreen+","+newBlue+","+(255)+")";
+      ctx.fillRect( x, y, 1, 1 );
+    }}
 }
 
 function changeColors(value) {
@@ -87,7 +150,6 @@ function colorBlock(e) {
   let green = data[1];
   let blue = data[2];
   let alpha = data[3];
-  console.log(red, green, blue, alpha);
   let rgba = "rgba( " + red + ", " + green + ", " + blue + ", " + alpha + ")";
   document.getElementById("colorChoice").style.backgroundColor = rgba;
 }
@@ -100,7 +162,6 @@ function getColors() {
   var img = document.getElementById("myPic");
   var width = img.clientWidth;
   var height = img.clientHeight;
-  console.log(width, height);
   for(let i = 1; i < height + 1; i++) {
     let row = [];
     for(let e = 1; e < width + 1; e++) {
@@ -111,7 +172,6 @@ function getColors() {
     }
     array.push(row);
   }
-  console.log(array);
   return array;
 }
 
