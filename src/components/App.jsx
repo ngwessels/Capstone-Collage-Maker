@@ -27,11 +27,9 @@ export class Mains {
 
 
 function main(e) {
-  let mains = new Mains();
-  mains.runColors();
-  mains.currentMain();
-  let apiColor = new Colors();
-  apiColor.apiCall();
+
+
+
   var img = document.getElementById("myPic");
   var width = img.clientWidth;
   var height = img.clientHeight;
@@ -45,6 +43,14 @@ function main(e) {
   const blocks = getBlocks(array, value, width, height);
   const ylength = blocks.length;
   const xlength = blocks[0].length;
+
+  const totalBlocks = blocks.length * blocks[0].length;
+  let mains = new Mains();
+  mains.runColors();
+  mains.currentMain();
+  let apiColor = new Colors();
+  apiColor.apiCall(totalBlocks);
+
   let total = 0;
   let lastY = 0;
   for(let i = 0; i < ylength; i++) {
@@ -92,6 +98,7 @@ function getBlocks(array, value, width, height) {
     }
     blocks.push(row);
   }
+
   return blocks;
 }
 
