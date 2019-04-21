@@ -3,17 +3,43 @@ import Header from './Header';
 import { Switch, Route } from 'react-router-dom';
 import Error404 from './Error404';
 import image from "../assets/images/bird.jpg";
+import { Colors } from '../ApiCalls/apiColor';
+import { Observable } from 'rxjs';
+
+export class Mains {
+  colors: Observable<any[]>;
+  runColors() {
+    let api = new Colors();
+    this.colors = api.colors;
+  }
+  currentMain() {
+    let that = this;
+    setInterval(function() {
+      that.runColors();
+      console.log(that.colors);
+    }, 6000)
+  }
+
+
+
+}
+
 
 
 function main(e) {
+  let mains = new Mains();
+  mains.runColors();
+  mains.currentMain();
+  let apiColor = new Colors();
+  apiColor.apiCall();
   var img = document.getElementById("myPic");
   var width = img.clientWidth;
   var height = img.clientHeight;
   let canvasGap = document.getElementById("myCanvas");
   var c = document.getElementById("myCanvas");
   var ctx = c.getContext("2d");
-  const value = findBestValue(width, height);
-  // let value = 5;
+  // const value = findBestValue(width, height);
+  let value = 5;
   colorBlock(e, canvasGap, c, ctx, img);
   const array = getColors(canvasGap, c, ctx, img, width, height);
   const blocks = getBlocks(array, value, width, height);
