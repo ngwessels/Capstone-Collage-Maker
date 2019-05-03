@@ -135,22 +135,6 @@ export class Grid {
 
 
 
-  colorBlock(e, canvasGap, c, ctx, img) {
-    ctx.drawImage(img,1,1);
-    let actualX = Math.floor(e.pageX - canvasGap.offsetLeft);
-    let actualY = Math.floor(e.pageY - canvasGap.offsetTop);
-
-    let pixelData = ctx.getImageData(actualX, actualY, 1, 1);
-    let data = pixelData.data;
-    let red = data[0];
-    let green = data[1];
-    let blue = data[2];
-    let alpha = data[3];
-    let rgba = "rgba( " + red + ", " + green + ", " + blue + ", " + alpha + ")";
-    document.getElementById("colorChoice").style.backgroundColor = rgba;
-  }
-
-
   // getColors makes a canvas and adds selected image
 
   getColors(canvasGap, c, ctx, img, width, height) {
