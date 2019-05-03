@@ -16,12 +16,14 @@ function main() {
   var width = img.clientWidth;
   var height = img.clientHeight;
   let canvasGap = document.getElementById("myCanvas");
+  document.getElementById('myCanvas').width = width;
+  document.getElementById('myCanvas').height = height;
   var c = document.getElementById("myCanvas");
   var c2 = document.getElementById('firstPicture');
-  var ctx2 = c2.getContext('2d');
   var ctx = c.getContext("2d");
+  // var ctx2 = c2.getContext('2d');
   ctx.drawImage(img,1,1);
-  grid.secondImage(ctx2, img);
+  // grid.secondImage(ctx2, img);
   const value = grid.findBestValue(width, height);
   // let value = 5;
   const array = grid.getColors(canvasGap, c, ctx, img, width, height);
@@ -51,21 +53,28 @@ let firstPicture = {
 
 }
 
+let imageBlocks = {
+  display: 'flex',
+  flexDirection: 'row',
+  width: '100%',
+  justifyContent: 'space-around',
+  margin: '0 auto'
+}
 
 
 
+
+// <canvas style={firstPicture} id='firstPicture' ref='canvas' width={1000} height={900} />
 
 function App(){
   return (
-    <div>
-      <button onClick={main}></button>
-      <div>
-        <div>
-          <canvas style={canvasStyle} onClick={main} id="myCanvas" ref="canvas" width={1000} height={900} />
-        </div>
+    <div style={{width: '100%', height: '100vh', justifyContent: 'center', alignItems: 'center'}}>
+      <button onClick={main}>Click Me</button>
+      <div style={imageBlocks}>
         <img style={imgStyle} src={image} alt="" id="myPic"/>
+        <canvas style={canvasStyle} onClick={main} id="myCanvas" ref="canvas"/>
+        <p>Currently this program pixelates the image. Its seperating the image into small squares. There is a function that determines the best sized square based of size of image</p>
       </div>
-      <canvas style={firstPicture} id='firstPicture' ref='canvas' width={1000} height={900} />
     </div>
   );
 }

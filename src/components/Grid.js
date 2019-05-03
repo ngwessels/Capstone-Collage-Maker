@@ -162,9 +162,9 @@ export class Grid {
   // Functions below are experimental and may not serve a purpose at this point
 
 
-  secondImage(ctx, image) {
-    image.width = 5;
-    image.height = 5;
-    ctx.drawImage(image, 100, 100);
-  }
+  // secondImage(ctx, image) {
+  //   image.width = 5;
+  //   image.height = 5;
+  //   ctx.drawImage(image, 100, 100);
+  // }
 }
