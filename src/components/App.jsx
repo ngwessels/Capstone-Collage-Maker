@@ -19,9 +19,6 @@ export class Mains {
       // console.log(that.colors);
     }, 6000)
   }
-
-
-
 }
 
 
