@@ -12,7 +12,7 @@ export class Colors {
     let length = colors.length;
     let currentColor = colors[num];
     var myHeaders = new Headers();
-    myHeaders.append('Ocp-Apim-Subscription-Key', '15931c17ede943fbb3c1d37ce1a4a864');
+    myHeaders.append('Ocp-Apim-Subscription-Key', process.env.imageAPI);
     let that = this;
     var myInit = {
       method: 'GET',
@@ -43,8 +43,6 @@ export class Colors {
       that.totalRuns = 0;
     }
     let totalLength = that.colors.length;
-    console.log(totalLength);
-    console.log(limit);
     if(totalLength < limit) {
       if(this.totalCalls < 11) {
         setTimeout(function() {
@@ -55,6 +53,7 @@ export class Colors {
             that.totalCalls = 0;
             that.totalRuns = that.totalRuns + 1;
           }
+          console.log(that.colors);
           that.apiCall(limit);
         },1200);
       }

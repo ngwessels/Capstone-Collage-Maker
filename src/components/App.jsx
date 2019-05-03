@@ -50,7 +50,7 @@ function main(e) {
   mains.runColors();
   mains.currentMain();
   let apiColor = new Colors();
-  // apiColor.apiCall(totalBlocks);
+  apiColor.apiCall(totalBlocks);
 
   let total = 0;
   let lastY = 0;
