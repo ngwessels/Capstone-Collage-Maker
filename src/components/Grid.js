@@ -39,7 +39,7 @@ export class Grid {
   }
 
 
-// THis is similar to a css grid but im having to do it based off the value that findBestValue() is returning. It gets starting pixel for every grid in every row and appends it to an array
+// This is similar to a css grid but im having to do it based off the value that findBestValue() is returning. It gets starting pixel for every grid in every row and appends it to an array
   getBlocks(array, value, width, height) {
     let startX = 0;
     let startY = 0;

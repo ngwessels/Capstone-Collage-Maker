@@ -28,6 +28,8 @@ function main() {
   // let value = 5;
   const array = grid.getColors(canvasGap, c, ctx, img, width, height);
   const blocks = grid.getBlocks(array, value, width, height);
+  console.log('Array', array);
+  console.log('blocks', blocks)
   const yLength = blocks.length;
   const xLength = blocks[0].length;
   const totalBlocks = blocks.length * blocks[0].length;
