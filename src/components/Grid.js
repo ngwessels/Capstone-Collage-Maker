@@ -133,7 +133,7 @@ export class Grid {
 
 
 
-  // getColors makes a canvas and adds selected image
+  // getColors gets pixel information from canvas
 
   getColors(canvasGap, c, ctx, img, width, height) {
     let array = [];

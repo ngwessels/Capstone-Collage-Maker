@@ -5,9 +5,21 @@ export class BlockImages {
 
 
 
-  dominantImages(imgs) {
+  dominantImages(imgs, value) {
     const length = imgs.length;
-    console.log(length)
+    console.log(length);
+    for(let i = 0; i < length; i++) {
+      document.getElementById('firstPicture').removeAttribute('src');
+      document.getElementById('firstPicture').src = '#';
+      var image = document.getElementById("firstPicture");
+      image.src = imgs[3];
+      console.log(imgs[i]);
+      image.width = 60;
+      image.height = 60;
+      var c2 = document.getElementById('secondCanvas');
+      var ctx2 = c2.getContext('2d');
+      ctx2.drawImage(image,1,1);
+    }
     return length;
   }
 
