@@ -36,7 +36,7 @@ function main() {
   let lastY = 0;
   grid.createImage(yLength, xLength, blocks, grid, array, width, height, canvasGap, c, ctx, total, lastY, value);
   let blockImage = new BlockImages();
-  const imagLength = blockImage.dominantImages(images, value);
+  blockImage.dominantImages(images, 100);
 }
 
 
@@ -84,7 +84,7 @@ function App(){
         <p>Currently this program pixelates the image. Its seperating the image into small squares. There is a function that determines the best sized square based of size of image</p>
       </div>
       <canvas id='secondCanvas' />
-      <img src='' alt='' id='firstPicture'/>
+      <img src='' alt='' id='firstPicture' ref="canvas"/>
     </div>
   );
 }
