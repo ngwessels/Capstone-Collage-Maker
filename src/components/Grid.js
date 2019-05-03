@@ -1,7 +1,8 @@
-
-
 export class Grid {
 
+
+
+// Gets the height and width of image. From there it determines the best pixel size for each box. For example if a picture is 355px in height and 625px in width each grid is going to be 5px by 5px
   findBestValue(width, height) {
     let min = 3;
     let isGood = false;
@@ -19,7 +20,7 @@ export class Grid {
 
 
 
-
+// THis is similar to a css grid but im having to do it based off the value that findBestValue() is returning. It gets starting pixel for every grid in every row and appends it to an array
   getBlocks(array, value, width, height) {
     let startX = 0;
     let startY = 0;
@@ -39,9 +40,7 @@ export class Grid {
     return blocks;
   }
 
-
-
-
+  // THis is getting the dominant color in every grid. It get every pixels color and than find the color that appears most often and adds it to an array. It will than call the changeColors function at the end
 
   getDominantColor(array, value, xx, yy, yValue, width, height, canvasGap, c, ctx) {
     let xCoord = 0;
@@ -84,8 +83,12 @@ export class Grid {
     let colorLength = color.length;
     let longest = [];
 
-    changeColors(color, colorLength, longest, yy, xx, yValue, value, ctx);
+    this.changeColors(color, colorLength, longest, yy, xx, yValue, value, ctx);
   }
+
+
+  // This changes the color of every grid to its dominat color given to it from getDominantColor
+
   changeColors(color, colorLength, longest, yy, xx, yValue, value, ctx) {
     for(let i = 0; i < colorLength; i++) {
       let instance = color[i][3];
@@ -108,18 +111,6 @@ export class Grid {
       }
     }
   }
-
-
-
-
-
-
-  secondImage(ctx, image) {
-    image.width = 5;
-    image.height = 5;
-    ctx.drawImage(image, 100, 100);
-  }
-
 
 
 
@@ -155,7 +146,9 @@ export class Grid {
     }
     return array;
   }
-
-
-
+  secondImage(ctx, image) {
+    image.width = 5;
+    image.height = 5;
+    ctx.drawImage(image, 100, 100);
+  }
 }
