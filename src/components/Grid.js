@@ -4,7 +4,8 @@ export class Grid {
 
 // Gets the height and width of image. From there it determines the best pixel size for each box. For example if a picture is 355px in height and 625px in width each grid is going to be 5px by 5px
   findBestValue(width, height) {
-    let min = 3;
+    let min = 5;
+    console.log(width, height);
     let isGood = false;
     while(isGood == false) {
       if(width % min == 0 && height % min == 0) {

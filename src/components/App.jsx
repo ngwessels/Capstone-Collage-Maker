@@ -9,22 +9,6 @@ import { Grid } from './Grid';
 
 
 
-export class Mains {
-  colors: Observable<any[]>;
-  runColors() {
-    let api = new Colors();
-    // this.colors = api.colors;
-  }
-  currentMain() {
-    let that = this;
-    setInterval(function() {
-      that.runColors();
-      // console.log(that.colors);
-    }, 6000)
-  }
-}
-
-
 
 function main(e) {
   const grid = new Grid;
@@ -37,8 +21,9 @@ function main(e) {
   var ctx2 = c2.getContext('2d');
   var ctx = c.getContext("2d");
   grid.secondImage(ctx2, img);
-  // const value = findBestValue(width, height);
-  let value = 5;
+  const value = grid.findBestValue(width, height);
+  console.log(value);
+  // let value = 5;
   grid.colorBlock(e, canvasGap, c, ctx, img);
   const array = grid.getColors(canvasGap, c, ctx, img, width, height);
   const blocks = grid.getBlocks(array, value, width, height);
@@ -46,11 +31,9 @@ function main(e) {
   const xlength = blocks[0].length;
 
   const totalBlocks = blocks.length * blocks[0].length;
-  let mains = new Mains();
-  mains.runColors();
-  mains.currentMain();
   let apiColor = new Colors();
-  apiColor.apiCall(totalBlocks);
+  // apiColor.apiCall(totalBlocks);
+  let images = apiColor.tempImages();
 
   let total = 0;
   let lastY = 0;
