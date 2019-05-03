@@ -130,7 +130,7 @@ export class Grid {
   }
 
 
-
+  // getColors makes a canvas and adds selected image
 
   getColors(canvasGap, c, ctx, img, width, height) {
     let array = [];
@@ -146,6 +146,17 @@ export class Grid {
     }
     return array;
   }
+
+
+
+
+
+
+
+
+  // Functions below are experimental and may not serve a purpose at this point
+
+
   secondImage(ctx, image) {
     image.width = 5;
     image.height = 5;
