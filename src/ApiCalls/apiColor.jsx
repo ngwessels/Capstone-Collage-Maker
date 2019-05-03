@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 export class Colors {
   colors;
+  string;
   totalCalls;
   totalRuns;
   apiDominantColors(num, skip) {
@@ -24,10 +25,15 @@ export class Colors {
         return response.json()
       })
       .then(data => {
+        let arrayString = [];
         let arrayLength = data.value.length;
         for(let i = 0; i < arrayLength; i++) {
           let currentData = data.value[i].contentUrl;
           that.colors.push(currentData);
+          arrayString.push(currentData);
+          that.string = that.string + arrayString;
+          console.log(arrayString);
+          console.log('seperation');
         }
 
       })
@@ -40,6 +46,7 @@ export class Colors {
     if(!this.totalCalls && !this.totalRuns) {
       this.totalCalls = 0;
       that.colors = [];
+      that.string = "";
       that.totalRuns = 0;
     }
     let totalLength = that.colors.length;
@@ -53,10 +60,10 @@ export class Colors {
             that.totalCalls = 0;
             that.totalRuns = that.totalRuns + 1;
           }
-          console.log(that.colors);
           that.apiCall(limit);
         },1200);
       }
+    } else {
     }
   }
 }
