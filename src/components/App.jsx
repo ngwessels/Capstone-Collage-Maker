@@ -61,6 +61,14 @@ let imageBlocks = {
   margin: '0 auto'
 }
 
+let button = {
+  width: '100px',
+  height: '100px',
+  backgroundColor: 'black',
+  color: 'white',
+  marginTop: '40px'
+}
+
 
 
 
@@ -68,8 +76,8 @@ let imageBlocks = {
 
 function App(){
   return (
-    <div style={{width: '100%', height: '100vh', justifyContent: 'center', alignItems: 'center'}}>
-      <button onClick={main}>Click Me</button>
+    <div style={{width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+      <button style={button}onClick={main}>Click Me</button>
       <div style={imageBlocks}>
         <img style={imgStyle} src={image} alt="" id="myPic"/>
         <canvas style={canvasStyle} onClick={main} id="myCanvas" ref="canvas"/>
