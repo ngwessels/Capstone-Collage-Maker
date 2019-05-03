@@ -11,6 +11,7 @@ import { Grid } from './Grid';
 
 
 function main(e) {
+  console.log(e.pageX, e.pageY);
   const grid = new Grid;
   var img = document.getElementById("myPic");
   var width = img.clientWidth;
@@ -27,30 +28,19 @@ function main(e) {
   grid.colorBlock(e, canvasGap, c, ctx, img);
   const array = grid.getColors(canvasGap, c, ctx, img, width, height);
   const blocks = grid.getBlocks(array, value, width, height);
-  const ylength = blocks.length;
-  const xlength = blocks[0].length;
+  const yLength = blocks.length;
+  const xLength = blocks[0].length;
 
   const totalBlocks = blocks.length * blocks[0].length;
   let apiColor = new Colors();
   // apiColor.apiCall(totalBlocks);
   let images = apiColor.tempImages();
-
   let total = 0;
   let lastY = 0;
-  for(let i = 0; i < ylength; i++) {
-    for(let e = 0; e < xlength; e++) {
-      const current = blocks[i][e];
-      const x = current[0];
-      const y = current[1];
-      total++;
-      if(blocks[i][e]) {
-        let currentValue = (blocks[i][e][0] + value);
-        let yValue = blocks[i][e][1] + value;
-        grid.getDominantColor(array, currentValue, x, y, yValue, width, height, canvasGap, c, ctx);
-      }
-    }
-  }
+  grid.createImage(yLength, xLength, blocks, grid, array, width, height, canvasGap, c, ctx, total, lastY, value);
 }
+
+
 
 
 let canvasStyle = {
@@ -73,11 +63,10 @@ function App(){
     <div>
       <div>
         <div>
-          <canvas style={canvasStyle} onClick={main} id="myCanvas" ref="canvas" width={1000} height={900}/>
+          <canvas style={canvasStyle} onClick={main} id="myCanvas" ref="canvas" width={1000} height={900} > <button onClick={main}>Press Me!</button> </canvas>
           <div style={{width: '100px', height: '100px'}} id="colorChoice"></div>
           <div style={{width: '20px', height: '20px', backgroundColor: 'black'}}></div>
         </div>
-        <img onClick={() => this.main(someparameter)} />
         <img style={imgStyle} src={image} alt="" id="myPic"/>
       </div>
       <canvas style={firstPicture} id='firstPicture' ref='canvas' width={1000} height={900} />

@@ -19,6 +19,26 @@ export class Grid {
     return min;
   }
 
+  //This runs through every grid and calls getDominantColor to get dominant color of every grid
+
+  createImage(yLength, xLength, blocks, grid, array, width, height, canvasGap, c, ctx, total, lastY, value) {
+    let that = this;
+    for(let i = 0; i < yLength; i++) {
+      for(let e = 0; e < xLength; e++) {
+        const current = blocks[i][e];
+        const x = current[0];
+        const y = current[1];
+        total++;
+        if(blocks[i][e]) {
+          let currentValue = (blocks[i][e][0] + value);
+          let yValue = blocks[i][e][1] + value;
+          that.getDominantColor(array, currentValue, x, y, yValue, width, height, canvasGap, c, ctx);
+        }
+      }
+    }
+  }
+
+
 
 
 // THis is similar to a css grid but im having to do it based off the value that findBestValue() is returning. It gets starting pixel for every grid in every row and appends it to an array
