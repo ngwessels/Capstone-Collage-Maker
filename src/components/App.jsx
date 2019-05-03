@@ -68,6 +68,10 @@ function main(e) {
   }
 }
 
+
+
+
+
 function findBestValue(width, height) {
   let min = 3;
   let isGood = false;
@@ -82,6 +86,9 @@ function findBestValue(width, height) {
   }
   return min;
 }
+
+
+
 
 function getBlocks(array, value, width, height) {
   let startX = 0;
@@ -101,6 +108,10 @@ function getBlocks(array, value, width, height) {
 
   return blocks;
 }
+
+
+
+
 
 function getDominantColor(array, value, xx, yy, yValue, width, height, canvasGap, c, ctx) {
   let xCoord = 0;
@@ -146,6 +157,10 @@ function getDominantColor(array, value, xx, yy, yValue, width, height, canvasGap
   changeColors(color, colorLength, longest, yy, xx, yValue, value, ctx);
 }
 
+
+
+
+
 function changeColors(color, colorLength, longest, yy, xx, yValue, value, ctx) {
   for(let i = 0; i < colorLength; i++) {
     let instance = color[i][3];
@@ -170,11 +185,18 @@ function changeColors(color, colorLength, longest, yy, xx, yValue, value, ctx) {
 }
 
 
+
+
+
+
 function secondImage(ctx, image) {
   image.width = 5;
   image.height = 5;
   ctx.drawImage(image, 100, 100);
 }
+
+
+
 
 function colorBlock(e, canvasGap, c, ctx, img) {
   ctx.drawImage(img,1,1);
@@ -190,6 +212,9 @@ function colorBlock(e, canvasGap, c, ctx, img) {
   let rgba = "rgba( " + red + ", " + green + ", " + blue + ", " + alpha + ")";
   document.getElementById("colorChoice").style.backgroundColor = rgba;
 }
+
+
+
 
 function getColors(canvasGap, c, ctx, img, width, height) {
   let array = [];
@@ -216,6 +241,10 @@ let imgStyle = {
 let firstPicture = {
 
 }
+
+
+
+
 
 function App(){
   return (
