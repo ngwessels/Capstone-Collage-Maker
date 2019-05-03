@@ -16,7 +16,7 @@ export class Mains {
     let that = this;
     setInterval(function() {
       that.runColors();
-      console.log(that.colors);
+      // console.log(that.colors);
     }, 6000)
   }
 
@@ -27,15 +27,15 @@ export class Mains {
 
 
 function main(e) {
-
-
-
   var img = document.getElementById("myPic");
   var width = img.clientWidth;
   var height = img.clientHeight;
   let canvasGap = document.getElementById("myCanvas");
   var c = document.getElementById("myCanvas");
+  var c2 = document.getElementById('firstPicture');
+  var ctx2 = c2.getContext('2d');
   var ctx = c.getContext("2d");
+  secondImage(ctx2, img);
   // const value = findBestValue(width, height);
   let value = 5;
   colorBlock(e, canvasGap, c, ctx, img);
@@ -49,7 +49,7 @@ function main(e) {
   mains.runColors();
   mains.currentMain();
   let apiColor = new Colors();
-  apiColor.apiCall(totalBlocks);
+  // apiColor.apiCall(totalBlocks);
 
   let total = 0;
   let lastY = 0;
@@ -169,6 +169,13 @@ function changeColors(color, colorLength, longest, yy, xx, yValue, value, ctx) {
   }
 }
 
+
+function secondImage(ctx, image) {
+  image.width = 5;
+  image.height = 5;
+  ctx.drawImage(image, 100, 100);
+}
+
 function colorBlock(e, canvasGap, c, ctx, img) {
   ctx.drawImage(img,1,1);
   let actualX = Math.floor(e.pageX - canvasGap.offsetLeft);
@@ -206,6 +213,10 @@ let canvasStyle = {
 let imgStyle = {
 };
 
+let firstPicture = {
+
+}
+
 function App(){
   return (
     <div>
@@ -217,7 +228,8 @@ function App(){
         </div>
         <img onClick={() => this.main(someparameter)} />
         <img style={imgStyle} src={image} alt="" id="myPic"/>
-    </div>
+      </div>
+      <canvas style={firstPicture} id='firstPicture' ref='canvas' width={1000} height={900} />
     </div>
   );
 }
