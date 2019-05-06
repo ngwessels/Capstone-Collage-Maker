@@ -5,7 +5,7 @@
   "main": "index.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --open",
     "lint": "eslint src/** src/**/**; exit 0",
     "fix": "eslint src/** src/**/** --fix; exit 0"
   },

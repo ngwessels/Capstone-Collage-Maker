@@ -17,18 +17,18 @@ export class BlockImages {
     var image = new Image();
     image.crossOrigin = "Anonymous";
     image = document.getElementById("firstPicture");
-    image.src = imgs[26];
+    image.src = imgs[4];
     image.width = value;
     image.height = value;
     document.getElementById('secondCanvas').width = value;
     document.getElementById('secondCanvas').height = value;
-    const pictureColors = that.getColors(c2, ctx2, image, value, value);
-    const dominantColor = that.dominantColor(pictureColors);
-    ctx2.drawImage(image,1,1);
     for(let i = length; i > 1; i--) {
       let that = this;
       setTimeout(function() {
-      }, 1000 * i);
+        ctx2.drawImage(image,1,1);
+        const pictureColors = that.getColors(c2, ctx2, image, value, value);
+        const dominantColor = that.dominantColor(pictureColors);
+      }, 1 * i);
     }
   }
 
