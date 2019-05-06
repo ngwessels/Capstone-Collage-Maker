@@ -22,8 +22,8 @@ function main() {
   var ctx = c.getContext("2d");
   ctx.drawImage(img,1,1);
   // grid.secondImage(ctx2, img);
-  const value = grid.findBestValue(width, height);
-  // let value = 5;
+  // const value = grid.findBestValue(width, height);
+  let value = 20;
   const array = grid.getColors(canvasGap, c, ctx, img, width, height);
   const blocks = grid.getBlocks(array, value, width, height);
   const yLength = blocks.length;
