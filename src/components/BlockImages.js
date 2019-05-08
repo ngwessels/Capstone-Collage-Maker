@@ -1,26 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {App} from './App';
+import { App } from './App';
+
+let allImages = [];
+let total = 0;
+
+
+
 
 export class BlockImages extends React.Component{
 
   constructor(props) {
     super(props);
     this.state = {
-      currentImage: {},
-      total: 0
     }
     console.log(this.state);
   }
-  componentWillMount() {
-    this.newState();
-  }
 
-  getState() {
-    return this.state.currentImage;
-  }
-
-  dominantImages(imgs, value) {
+  dominantImages(imgs, value, bigArray) {
     let that = this;
     const length = imgs.length;
     let array = [];
@@ -29,13 +26,13 @@ export class BlockImages extends React.Component{
     let image = [];
     for(let i = 0; i < length; i++) {
       let createCanvas = document.createElement(`canvas${i}`);
-      that.runImage(i, imgs, value, imageBody, canvasBody);
+      that.runImage(i, imgs, value, imageBody, canvasBody, bigArray);
       document.getElementById('secondCanvas').width = value;
       document.getElementById('secondCanvas').height = value;
     }
   }
 
-  runImage(i, imgs, value, imageBody, canvasBody) {
+  runImage(i, imgs, value, imageBody, canvasBody, array) {
     let that = this;
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'blob'; //so you can access the response like a normal URL
@@ -65,17 +62,24 @@ export class BlockImages extends React.Component{
             ctx2.drawImage(currentImage,1,1,value, value);
             const pictureColors = that.getColors(ctx2, currentImage, value, value);
             const dominantColor = that.dominantColor(pictureColors, value);
-            that.newState(currentImage.src, dominantColor);
+            const instance = [currentImage.src, pictureColors, dominantColor];
+            allImages.push(instance);
           }
         }
     };
+    total++;
+    if(total == imgs.length) {
+      let app = new App();
+      setTimeout(function() {
+        console.log('is working');
+        allImages.push(array);
+        app.apiFinished(allImages)
+
+
+      }, 4000)
+    }
     xhr.open('GET', imgs[i], true);
     xhr.send();
-  }
-
-  newState(url, color) {
-    let array = [url, color];
-    this.setState({currentImage: [...this.state.currentImage, array]})
   }
 
 

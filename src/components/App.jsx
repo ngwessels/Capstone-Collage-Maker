@@ -2,22 +2,32 @@ import React from 'react';
 import Header from './Header';
 import { Switch, Route } from 'react-router-dom';
 import Error404 from './Error404';
-import image from "../assets/images/luke.jpg";
+import image from "../assets/images/wilderness.jpg";
 import { Colors } from '../ApiCalls/apiColor';
 import { Observable } from 'rxjs';
 import { Grid } from './Grid';
 import { BlockImages } from './BlockImages';
 import PropTypes from 'prop-types';
+import {CombineImages} from './CombineImages';
+let blocks;
 
 
 
-
-class App extends React.Component {
+export class App extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      array: {},
+      colors: {},
+      blocks: {},
     }
+    this.main = this.main.bind(this);
+  }
+
+  apiFinished(info) {
+    let combine = new CombineImages();
+    combine.getData(info, blocks);
   }
 
   main() {
@@ -32,10 +42,17 @@ class App extends React.Component {
     var ctx = c.getContext("2d");
     ctx.drawImage(img,1,1);
     // grid.secondImage(ctx2, img);
-    // const value = grid.findBestValue(width, height);
-    const value = 20;
+    const value = grid.findBestValue(width, height);
+    // const value = 20;
     const array = grid.getColors(canvasGap, c, ctx, img, width, height);
-    const blocks = grid.getBlocks(array, value, width, height);
+    // this.setState(state => {
+    //   const array = {this.state.array, array};
+    //   return {
+    //     array
+    //   }
+    // })
+    console.log(this.state);
+    blocks = grid.getBlocks(array, value, width, height);
     const yLength = blocks.length;
     const xLength = blocks[0].length;
     const totalBlocks = blocks.length * blocks[0].length;
@@ -46,12 +63,9 @@ class App extends React.Component {
     let lastY = 0;
     grid.createImage(yLength, xLength, blocks, grid, array, width, height, canvasGap, c, ctx, total, lastY, value);
     let blockImage = new BlockImages();
-    blockImage.dominantImages(images, value);
-    setTimeout(function() {
-      console.log(blockImage.getState());
-    }, 3000)
-  }
+    blockImage.dominantImages(images, value, array);
 
+  }
 
 
 // <canvas style={firstPicture} id='firstPicture' ref='canvas' width={1000} height={900} />
@@ -59,7 +73,6 @@ class App extends React.Component {
   render() {
 
     let canvasStyle = {
-
     };
 
     let imgStyle = {
