@@ -1,9 +1,24 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import {App} from './App';
 
+export class BlockImages extends React.Component{
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentImage: {},
+      total: 0
+    }
+    console.log(this.state);
+  }
+  componentWillMount() {
+    this.newState();
+  }
 
-export class BlockImages {
-
-
+  getState() {
+    return this.state.currentImage;
+  }
 
   dominantImages(imgs, value) {
     let that = this;
@@ -50,12 +65,20 @@ export class BlockImages {
             ctx2.drawImage(currentImage,1,1,value, value);
             const pictureColors = that.getColors(ctx2, currentImage, value, value);
             const dominantColor = that.dominantColor(pictureColors, value);
+            that.newState(currentImage.src, dominantColor);
           }
         }
     };
     xhr.open('GET', imgs[i], true);
     xhr.send();
   }
+
+  newState(url, color) {
+    let array = [url, color];
+    this.setState({currentImage: [...this.state.currentImage, array]})
+  }
+
+
 
 
   dominantColor(array, value) {
@@ -101,7 +124,7 @@ export class BlockImages {
         longestStart = color[i][3];
       }
     }
-    console.log(longest);
+    return longest;
   }
 
 
