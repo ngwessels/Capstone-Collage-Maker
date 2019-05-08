@@ -6,37 +6,55 @@ export class BlockImages {
 
 
   dominantImages(imgs, value) {
-    console.log(imgs)
     let that = this;
     const length = imgs.length;
     let array = [];
-    var c2 = document.getElementById('secondCanvas');
-    var ctx2 = c2.getContext('2d');
-    ctx2.clearRect(0, 0, value, value);
-    document.getElementById('firstPicture').removeAttribute('src');
+    var canvasBody = document.getElementById('secondCanvas');
+    const imageBody = document.getElementById('firstPicture');
     let image = [];
     for(let i = 0; i < length; i++) {
-      image[i] = new Image();
-      image[i] = document.getElementById("firstPicture");
-      image[i].crossOrigin = "Anonymous";
-      image[i].width = value;
-      image[i].height = value;
-      image[i].src = '#';
-      image[i].src = imgs[i];
-      console.log(image[i].src);
+      let createCanvas = document.createElement(`canvas${i}`);
+      that.runImage(i, imgs, value, imageBody, canvasBody);
       document.getElementById('secondCanvas').width = value;
       document.getElementById('secondCanvas').height = value;
-      that.runningImage(image[i], ctx2, c2, value);
     }
   }
 
-  runningImage(image, ctx2, c2, value) {
+  runImage(i, imgs, value, imageBody, canvasBody) {
     let that = this;
-    image.onload = function(){
-      ctx2.drawImage(image,1,1,value, value);
-      const pictureColors = that.getColors(c2, ctx2, image, value, value);
-      const dominantColor = that.dominantColor(pictureColors, value);
-    }
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob'; //so you can access the response like a normal URL
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+
+          let createImageLoc = new Image;
+          createImageLoc = document.createElement(`img${i}`);
+          let currentImage = document.createElement("IMG");
+          currentImage.crossOrigin = "Anonymous";
+          currentImage.header = "Access-Control-Allow-Origin";
+          currentImage.width = value;
+          currentImage.height = value;
+          currentImage.src = imgs[i];
+          currentImage.src = URL.createObjectURL(xhr.response);
+          let imageDivLength = document.getElementById('firstPicture').childElementCount;
+          currentImage.id=`currentId${imageDivLength + 1}`;
+          imageBody.appendChild(currentImage);
+          let createCanvas = document.createElement('canvas');
+          createCanvas.id = `canvasId${imageDivLength + 1}`;
+          createCanvas.width = value;
+          createCanvas.height = value;
+          var ctx2 = createCanvas.getContext('2d');
+          ctx2.clearRect(0, 0, value, value);
+          canvasBody.appendChild(createCanvas);
+          currentImage.onload = function(){
+            ctx2.drawImage(currentImage,1,1,value, value);
+            const pictureColors = that.getColors(ctx2, currentImage, value, value);
+            const dominantColor = that.dominantColor(pictureColors, value);
+          }
+        }
+    };
+    xhr.open('GET', imgs[i], true);
+    xhr.send();
   }
 
 
@@ -83,58 +101,11 @@ export class BlockImages {
         longestStart = color[i][3];
       }
     }
+    console.log(longest);
   }
 
 
-
-  getDominantColor(array, value, xx, yy, yValue, width, height, c, ctx) {
-    let xCoord = 0;
-    let yCoord = 0;
-    let color = [];
-    let total = 0;
-    for(let y = yy; y < yValue; y++) {
-      for(let x = xx; x < value; x++) {
-        let instance;
-        if(array[y][x]) {
-          instance = array[y][x];
-        } else {
-        }
-        let iLength;
-        if(array[y][x]) {
-          iLength = instance.length;
-        } else {
-          iLength = 0;
-        }
-        if(iLength > 0) {
-          let red = instance[0];
-          let green = instance[1];
-          let blue = instance[2];
-          const colorLength = color.length;
-          let isClose = false;
-          for(let colorI = 0; colorI < colorLength; colorI++) {
-            if(red >= (color[colorI][0] - 5) && red <= (color[colorI][0] + 5) && green >= (color[colorI][1] - 5) && green <= (color[colorI][1] + 5) && blue >= (color[colorI][2] - 5) && blue <= (color[colorI][2] + 5)) {
-              let totalColor = color[colorI][3];
-              color[colorI][3] = totalColor + 1;
-              isClose = true;
-
-            }
-          }
-          if(color.length == 0 || isClose == false) {
-            color.push([red, green, blue, 0]);
-          }
-        }
-      }
-    }
-
-  }
-
-
-
-
-
-
-
-  getColors(c2, ctx2, img, width, height) {
+  getColors(ctx2, img, width, height) {
     let array = [];
     for(let i = 1; i < height + 1; i++) {
       let row = [];

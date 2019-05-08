@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './Header';
 import { Switch, Route } from 'react-router-dom';
 import Error404 from './Error404';
-import image from "../assets/images/bird.jpg";
+import image from "../assets/images/luke.jpg";
 import { Colors } from '../ApiCalls/apiColor';
 import { Observable } from 'rxjs';
 import { Grid } from './Grid';
@@ -83,8 +83,8 @@ function App(){
         <canvas style={canvasStyle} onClick={main} id="myCanvas"/>
         <p>Currently this program pixelates the image. Its seperating the image into small squares. There is a function that determines the best sized square based of size of image</p>
       </div>
-      <canvas id='secondCanvas'/>
-      <img src='' alt='' id='firstPicture' />
+      <div id='secondCanvas'/>
+      <div id='firstPicture' />
     </div>
   );
 }
