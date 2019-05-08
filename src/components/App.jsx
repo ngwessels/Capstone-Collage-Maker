@@ -23,7 +23,7 @@ function main() {
   ctx.drawImage(img,1,1);
   // grid.secondImage(ctx2, img);
   // const value = grid.findBestValue(width, height);
-  let value = 20;
+  const value = 20;
   const array = grid.getColors(canvasGap, c, ctx, img, width, height);
   const blocks = grid.getBlocks(array, value, width, height);
   const yLength = blocks.length;
@@ -36,7 +36,7 @@ function main() {
   let lastY = 0;
   grid.createImage(yLength, xLength, blocks, grid, array, width, height, canvasGap, c, ctx, total, lastY, value);
   let blockImage = new BlockImages();
-  blockImage.dominantImages(images, 100);
+  blockImage.dominantImages(images, value);
 }
 
 
