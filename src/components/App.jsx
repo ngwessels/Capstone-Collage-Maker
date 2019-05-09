@@ -8,7 +8,7 @@ import CombineImages from './CombineImages';
 let blocks;
 import { Switch, Route, withRouter } from 'react-router-dom';
 import Main from './Main';
-
+import { BlockImages } from './BlockImages';
 
 
 export class App extends React.Component {
@@ -24,6 +24,9 @@ export class App extends React.Component {
       width:0,
       height: 0,
       value: 0,
+      string: [],
+      stringLength: 0,
+      totalBlocks: 0,
     }
     this.updateArray = this.updateArray.bind(this);
     this.updateBlocks = this.updateBlocks.bind(this);
@@ -31,18 +34,34 @@ export class App extends React.Component {
     this.updateImages = this.updateImages.bind(this);
     this.isFinished = this.isFinished.bind(this);
     this.updateSize = this.updateSize.bind(this);
+    this.updateImage = this.updateImage.bind(this);
+    this.updateTotalBlocks = this.updateTotalBlocks.bind(this);
   }
 
+  updateTotalBlocks(info) {
+    this.setState(prevState => ({
+      totalBlocks: info,
+    }))
+  }
 
+  updateImage(info, add) {
+    console.log(info, add)
+    this.setState(prevState => ({
+      string: [...prevState.string, info],
+      stringLength:this.state.stringLength + add
+    }))
+  }
 
   isFinished(info) {
     this.setState({
       finished: info
     })
     let combine = new CombineImages();
-    if(info == true) {
-      combine.main(this.state);
-    }
+    // if(info == true) {
+    //   let blockImage = new BlockImages();
+    //   blockImage.dominantImages(this.state.string, this.state.value, this.state.array, this.state.updateImages);
+    //   combine.main(this.state);
+    // }
   }
 
   updateArray(info){
@@ -57,6 +76,7 @@ export class App extends React.Component {
   }
 
   updateImages(info) {
+    console.log(info);
     this.setState({
       images: [
         ...this.state.images, info
@@ -93,9 +113,10 @@ export class App extends React.Component {
 
 
   render() {
+    console.log(this.state.string);
     return (
       <Switch>
-        <Route path='/' render={()=><Main blocks={this.state.blocks} array={this.state.array} colors={this.state.colors} updateArray={this.updateArray} updateBlocks={this.updateBlocks} updateColors={this.updateColors} isFinished={this.isFinished} updateImages={this.updateImages} updateSize={this.updateSize}/>} />
+        <Route path='/' render={()=><Main blocks={this.state.blocks} array={this.state.array} colors={this.state.colors} updateArray={this.updateArray} updateBlocks={this.updateBlocks} updateColors={this.updateColors} isFinished={this.isFinished} updateImages={this.updateImages} updateSize={this.updateSize} updateImage={this.updateImage} string={this.state.string} stringLength={this.state.stringLength} totalBlocks={this.state.totalBlocks} updateTotalBlocks={this.updateTotalBlocks} />} />
       </Switch>
     )
   }

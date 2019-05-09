@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import {CombineImages} from './CombineImages';
 import { BlockImages } from './BlockImages';
 import { Grid } from './Grid';
-import image from "../assets/images/bird.jpg";
-import { Colors } from '../ApiCalls/apiColor';
+import image from "../assets/images/luke.jpg";
 
 
 
@@ -12,25 +11,64 @@ class Main extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = props;
-    this.state = {
-      array: props.array,
-      colors: props.colors,
-      blocks: props.blocks,
-      updateArray: props.updateArray,
-      updateBlocks: props.updateBlocks,
-      updateColors: props.updateColors,
-      updateImages: props.updateImages,
-      isFinished: props.isFinished,
-      updateSize: props.updateSize,
-    }
+
     this.main = this.main.bind(this);
+    this.getImages = this.getImages.bind(this);
   }
 
   apiFinished(info) {
     let combine = new CombineImages();
     combine.getData(info, blocks);
   }
+
+
+
+  apiDominantImages(skip, num) {
+    let colors = ["Black", "Blue", "Brown", "Gray", "Green", "Orange", "Pink", "Purple", "Red", "Teal", "White", "Yellow"];
+    let currentColor = colors[num];
+    var myHeaders = new Headers();
+    myHeaders.append('Ocp-Apim-Subscription-Key', process.env.imageAPI);
+    let that = this;
+    var myInit = {
+      method: 'GET',
+      headers: myHeaders
+    };
+    var myRequest = new Request(`https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=cats&count=150&offset=${skip}&mkt=en-us&safeSearch=Moderate&width=100&height=100&imageType=Photo&color=${currentColor}`, myInit);
+    fetch(myRequest)
+      .then(response => {
+        return response.json()
+      })
+      .then(data => {
+        let arrayString = [];
+        let arrayLength = data.value.length;
+        for(let i = 0; i < arrayLength; i++) {
+          let currentData = data.value[i].contentUrl;
+          arrayString.push([currentData]);
+        }
+        that.props.updateImage(arrayString, arrayLength);
+      })
+      .catch(err => {
+      })
+
+  }
+
+
+
+
+  getImages(needed) {
+    let that = this;
+    let a = 0;
+    for(let i = 0; i < needed; i = i + 130) {
+      a++
+      setTimeout(function() {
+        const random = Math.floor(Math.random() * 12);
+        const randomSkip = Math.floor(Math.random() * 100);
+        that.apiDominantImages(randomSkip, random);
+      }, 333 * a)
+
+    }
+  }
+
 
   main() {
     const grid = new Grid;
@@ -44,29 +82,29 @@ class Main extends React.Component {
     var ctx = c.getContext("2d");
     ctx.drawImage(img,1,1);
     const value = grid.findBestValue(width, height);
-    // const value = 20;
-    this.state.updateSize(width, height, value);
+    // const value = 10;
+    this.props.updateSize(width, height, value);
     const array = grid.getColors(canvasGap, c, ctx, img, width, height);
-    this.state.updateArray(array);
+    this.props.updateArray(array);
     const blocks = grid.getBlocks(array, value, width, height);
-    this.state.updateBlocks(blocks);
+    this.props.updateBlocks(blocks);
     const yLength = blocks.length;
     const xLength = blocks[0].length;
     const totalBlocks = blocks.length * blocks[0].length;
-    let apiColor = new Colors();
-    // apiColor.apiCall(totalBlocks);
-    let images = apiColor.tempImages();
+    this.props.updateTotalBlocks(totalBlocks);
+    let imagesNeeded = ((width / value) * (height / value));
+    console.log('imagesNeeded', imagesNeeded);
+    let that = this;
+    this.getImages(imagesNeeded);
     let total = 0;
     let lastY = 0;
-    grid.createImage(yLength, xLength, blocks, grid, array, width, height, canvasGap, c, ctx, total, lastY, value, this.state.updateColors);
-    let blockImage = new BlockImages();
-    blockImage.dominantImages(images, value, array, this.state.updateImages, this.state.isFinished);
+    grid.createImage(yLength, xLength, blocks, grid, array, width, height, canvasGap, c, ctx, total, lastY, value, this.props.updateColors);
+
 
   }
 
 
   render() {
-
     let canvasStyle = {
     };
 
@@ -99,7 +137,6 @@ class Main extends React.Component {
         <div style={imageBlocks}>
           <img style={imgStyle} src={image} alt="" id="myPic"/>
           <canvas style={canvasStyle} onClick={this.main} id="myCanvas"/>
-          <p>Currently this program pixelates the image. Its seperating the image into small squares. There is a function that determines the best sized square based of size of image</p>
         </div>
         <div id='secondCanvas'/>
         <div id='firstPicture' />
@@ -107,24 +144,21 @@ class Main extends React.Component {
     );
   }
 
-
-
-
-
-
 }
-
-
 Main.propTypes = {
-  colors: PropTypes.array,
-  blocks: PropTypes.array,
-  colors: PropTypes.array,
+  colors: PropTypes.object,
+  blocks: PropTypes.object,
   updateArray: PropTypes.func,
   updateBlocks: PropTypes.func,
   updateColors: PropTypes.func,
   updateImages: PropTypes.func,
   isFinished: PropTypes.func,
   updateSize: PropTypes.func,
+  updateImage: PropTypes.func,
+  string: PropTypes.array,
+  stringLength: PropTypes.number,
+  totalBlocks: PropTypes.number,
+  updateTotalBlocks: PropTypes.func,
 }
 
 export default Main;

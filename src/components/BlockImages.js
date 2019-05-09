@@ -15,22 +15,22 @@ export class BlockImages extends React.Component{
     }
   }
 
-  dominantImages(imgs, value, bigArray, updateImages, isFinished) {
+  dominantImages(imgArray, value, bigArray, updateImages) {
     let that = this;
-    const length = imgs.length;
+    const length = imgArray.length;
     let array = [];
     var canvasBody = document.getElementById('secondCanvas');
     const imageBody = document.getElementById('firstPicture');
     let image = [];
     for(let i = 0; i < length; i++) {
       let createCanvas = document.createElement(`canvas${i}`);
-      that.runImage(i, imgs, value, imageBody, canvasBody, bigArray, updateImages, isFinished);
+      that.runImage(i, imgArray, value, imageBody, canvasBody, bigArray, updateImages);
       document.getElementById('secondCanvas').width = value;
       document.getElementById('secondCanvas').height = value;
     }
   }
 
-  runImage(i, imgs, value, imageBody, canvasBody, array, updateImages, isFinished) {
+  runImage(i, imgs, value, imageBody, canvasBody, array, updateImages) {
     let that = this;
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'blob'; //so you can access the response like a normal URL
@@ -70,7 +70,6 @@ export class BlockImages extends React.Component{
       setTimeout(function() {
         allImages.push(array);
         updateImages(allImages);
-        isFinished(true);
       }, 4000)
     }
     xhr.open('GET', imgs[i], true);
