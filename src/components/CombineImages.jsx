@@ -10,7 +10,6 @@ export class CombineImages extends React.Component {
   }
 
   getData(info, blocks) {
-    console.log(info);
   }
 
 

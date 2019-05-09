@@ -1,11 +1,22 @@
-export class Grid {
+import React from 'react';
+import PropTypes from 'prop-types';
 
+
+
+export class Grid extends React.Component{
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      updateColors: props.updateColors,
+    }
+  }
 
 
 // Gets the height and width of image. From there it determines the best pixel size for each box. For example if a picture is 355px in height and 625px in width each grid is going to be 5px by 5px
   findBestValue(width, height) {
     let min = 5;
-    console.log(width, height);
     let isGood = false;
     while(isGood == false) {
       if(width % min == 0 && height % min == 0) {
@@ -99,6 +110,7 @@ export class Grid {
         }
       }
     }
+    this.state.updateColors(color);
     let colorLength = color.length;
     let longest = [];
 
@@ -150,19 +162,11 @@ export class Grid {
     return array;
   }
 
-
-
-
-
-
-
-
-  // Functions below are experimental and may not serve a purpose at this point
-
-
-  // secondImage(ctx, image) {
-  //   image.width = 5;
-  //   image.height = 5;
-  //   ctx.drawImage(image, 100, 100);
-  // }
 }
+
+Grid.propTypes = {
+  updateColors: PropTypes.func,
+}
+
+
+export default Grid;

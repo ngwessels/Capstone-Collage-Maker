@@ -14,7 +14,6 @@ export class BlockImages extends React.Component{
     super(props);
     this.state = {
     }
-    console.log(this.state);
   }
 
   dominantImages(imgs, value, bigArray) {
@@ -71,7 +70,6 @@ export class BlockImages extends React.Component{
     if(total == imgs.length) {
       let app = new App();
       setTimeout(function() {
-        console.log('is working');
         allImages.push(array);
         app.apiFinished(allImages)
 
