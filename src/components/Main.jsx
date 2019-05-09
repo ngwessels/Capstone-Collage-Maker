@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {CombineImages} from './CombineImages';
 import { BlockImages } from './BlockImages';
 import { Grid } from './Grid';
-import image from "../assets/images/wilderness.jpg";
+import image from "../assets/images/bird.jpg";
 import { Colors } from '../ApiCalls/apiColor';
 
 
@@ -20,6 +20,9 @@ class Main extends React.Component {
       updateArray: props.updateArray,
       updateBlocks: props.updateBlocks,
       updateColors: props.updateColors,
+      updateImages: props.updateImages,
+      isFinished: props.isFinished,
+      updateSize: props.updateSize,
     }
     this.main = this.main.bind(this);
   }
@@ -40,7 +43,9 @@ class Main extends React.Component {
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     ctx.drawImage(img,1,1);
-    const value = grid.findBestValue(width, height);
+    // const value = grid.findBestValue(width, height);
+    const value = 20;
+    this.state.updateSize(width, height, value);
     const array = grid.getColors(canvasGap, c, ctx, img, width, height);
     this.state.updateArray(array);
     const blocks = grid.getBlocks(array, value, width, height);
@@ -53,9 +58,9 @@ class Main extends React.Component {
     let images = apiColor.tempImages();
     let total = 0;
     let lastY = 0;
-    grid.createImage(yLength, xLength, blocks, grid, array, width, height, canvasGap, c, ctx, total, lastY, value);
+    grid.createImage(yLength, xLength, blocks, grid, array, width, height, canvasGap, c, ctx, total, lastY, value, this.state.updateColors);
     let blockImage = new BlockImages();
-    blockImage.dominantImages(images, value, array);
+    blockImage.dominantImages(images, value, array, this.state.updateImages, this.state.isFinished);
 
   }
 
@@ -117,6 +122,9 @@ Main.propTypes = {
   updateArray: PropTypes.func,
   updateBlocks: PropTypes.func,
   updateColors: PropTypes.func,
+  updateImages: PropTypes.func,
+  isFinished: PropTypes.func,
+  updateSize: PropTypes.func,
 }
 
 export default Main;

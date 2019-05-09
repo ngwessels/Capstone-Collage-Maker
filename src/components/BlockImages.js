@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { App } from './App';
 
 let allImages = [];
 let total = 0;
@@ -16,7 +15,7 @@ export class BlockImages extends React.Component{
     }
   }
 
-  dominantImages(imgs, value, bigArray) {
+  dominantImages(imgs, value, bigArray, updateImages, isFinished) {
     let that = this;
     const length = imgs.length;
     let array = [];
@@ -25,13 +24,13 @@ export class BlockImages extends React.Component{
     let image = [];
     for(let i = 0; i < length; i++) {
       let createCanvas = document.createElement(`canvas${i}`);
-      that.runImage(i, imgs, value, imageBody, canvasBody, bigArray);
+      that.runImage(i, imgs, value, imageBody, canvasBody, bigArray, updateImages, isFinished);
       document.getElementById('secondCanvas').width = value;
       document.getElementById('secondCanvas').height = value;
     }
   }
 
-  runImage(i, imgs, value, imageBody, canvasBody, array) {
+  runImage(i, imgs, value, imageBody, canvasBody, array, updateImages, isFinished) {
     let that = this;
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'blob'; //so you can access the response like a normal URL
@@ -68,12 +67,10 @@ export class BlockImages extends React.Component{
     };
     total++;
     if(total == imgs.length) {
-      let app = new App();
       setTimeout(function() {
         allImages.push(array);
-        app.apiFinished(allImages)
-
-
+        updateImages(allImages);
+        isFinished(true);
       }, 4000)
     }
     xhr.open('GET', imgs[i], true);
@@ -144,18 +141,5 @@ export class BlockImages extends React.Component{
     }
     return array;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

@@ -1,27 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+let longestColors = [];
 
 
-
-export class Grid extends React.Component{
-
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      updateColors: props.updateColors,
-    }
-  }
-
+export class Grid{
 
 // Gets the height and width of image. From there it determines the best pixel size for each box. For example if a picture is 355px in height and 625px in width each grid is going to be 5px by 5px
+
+
   findBestValue(width, height) {
     let min = 5;
     let isGood = false;
     while(isGood == false) {
       if(width % min == 0 && height % min == 0) {
         isGood = true;
-
       }
       else {
         min = min + 1;
@@ -32,7 +22,7 @@ export class Grid extends React.Component{
 
   //This runs through every grid and calls getDominantColor to get dominant color of every grid
 
-  createImage(yLength, xLength, blocks, grid, array, width, height, canvasGap, c, ctx, total, lastY, value) {
+  createImage(yLength, xLength, blocks, grid, array, width, height, canvasGap, c, ctx, total, lastY, value, updateColors) {
     let that = this;
     for(let i = 0; i < yLength; i++) {
       for(let e = 0; e < xLength; e++) {
@@ -43,7 +33,7 @@ export class Grid extends React.Component{
         if(blocks[i][e]) {
           let currentValue = (blocks[i][e][0] + value);
           let yValue = blocks[i][e][1] + value;
-          that.getDominantColor(array, currentValue, x, y, yValue, width, height, canvasGap, c, ctx);
+          that.getDominantColor(array, currentValue, x, y, yValue, width, height, canvasGap, c, ctx, updateColors);
         }
       }
     }
@@ -51,6 +41,7 @@ export class Grid extends React.Component{
 
 
 // This is similar to a css grid but im having to do it based off the value that findBestValue() is returning. It gets starting pixel for every grid in every row and appends it to an array
+
   getBlocks(array, value, width, height) {
     let startX = 0;
     let startY = 0;
@@ -72,7 +63,7 @@ export class Grid extends React.Component{
 
   // THis is getting the dominant color in every grid. It get every pixels color and than find the color that appears most often and adds it to an array. It will than call the changeColors function at the end
 
-  getDominantColor(array, value, xx, yy, yValue, width, height, canvasGap, c, ctx) {
+  getDominantColor(array, value, xx, yy, yValue, width, height, canvasGap, c, ctx, updateColors) {
     let xCoord = 0;
     let yCoord = 0;
     let color = [];
@@ -110,17 +101,15 @@ export class Grid extends React.Component{
         }
       }
     }
-    this.state.updateColors(color);
     let colorLength = color.length;
     let longest = [];
-
-    this.changeColors(color, colorLength, longest, yy, xx, yValue, value, ctx);
+    this.changeColors(color, colorLength, longest, yy, xx, yValue, value, ctx, updateColors);
   }
 
 
   // This changes the color of every grid to its dominat color given to it from getDominantColor
 
-  changeColors(color, colorLength, longest, yy, xx, yValue, value, ctx) {
+  changeColors(color, colorLength, longest, yy, xx, yValue, value, ctx, updateColors) {
     for(let i = 0; i < colorLength; i++) {
       let instance = color[i][3];
       if(longest.length == 0) {
@@ -141,9 +130,8 @@ export class Grid extends React.Component{
         ctx.fillRect( x, y, 1, 1 );
       }
     }
+    updateColors(longest);
   }
-
-
 
   // getColors gets pixel information from canvas
 
@@ -163,10 +151,3 @@ export class Grid extends React.Component{
   }
 
 }
-
-Grid.propTypes = {
-  updateColors: PropTypes.func,
-}
-
-
-export default Grid;
