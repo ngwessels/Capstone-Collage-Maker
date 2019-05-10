@@ -17,6 +17,7 @@ class CombineImages extends React.Component {
   }
 
   main(state) {
+    console.log(state);
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     const row = state.width / state.value;
@@ -113,6 +114,7 @@ class CombineImages extends React.Component {
     for(let y = 0; y < column; y++) {
       let instance = [];
       for(let x = 0; x < row; x++) {
+        console.log(colors[total])
         instance.push(colors[total]);
         total++;
       }

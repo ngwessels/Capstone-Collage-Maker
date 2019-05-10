@@ -27,6 +27,7 @@ export class App extends React.Component {
       string: [],
       stringLength: 0,
       totalBlocks: 0,
+      blocksFinished: false
     }
     this.updateArray = this.updateArray.bind(this);
     this.updateBlocks = this.updateBlocks.bind(this);
@@ -36,6 +37,14 @@ export class App extends React.Component {
     this.updateSize = this.updateSize.bind(this);
     this.updateImage = this.updateImage.bind(this);
     this.updateTotalBlocks = this.updateTotalBlocks.bind(this);
+    this.blocksFinished = this.blocksFinished.bind(this);
+  }
+
+  blocksFinished() {
+    this.setState({blocksFinished: true});
+    let combine = new CombineImages();
+    combine.main(this.state);
+
   }
 
   updateTotalBlocks(info) {
@@ -51,18 +60,17 @@ export class App extends React.Component {
     }))
   }
 
-  runCombine() {
-    let combine = new CombineImages();
+  runBlockImages() {
     let blockImage = new BlockImages();
-    blockImage.dominantImages(this.state.string, this.state.value, this.state.array, this.state.updateImages);
-    combine.main(this.state);
+    blockImage.dominantImages(this.state.string, this.state.value, this.state.array, this.updateImages, this.blocksFinished);
+
   }
 
   isFinished(info) {
     this.setState({
       finished: info
     })
-    this.runCombine();
+    this.runBlockImages();
   }
 
   updateArray(info){
@@ -75,7 +83,6 @@ export class App extends React.Component {
   }
 
   updateImages(info) {
-    console.log('is called');
     this.setState({
       images: [
         ...this.state.images, info

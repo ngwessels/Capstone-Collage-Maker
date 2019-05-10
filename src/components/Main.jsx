@@ -64,7 +64,6 @@ class Main extends React.Component {
   }
 
   enoughCalled() {
-    console.log('current Length of state', this.state.enoughCalled);
     if(this.state.enoughCalled > this.state.needed) {
       return true;
     } else {
@@ -74,7 +73,6 @@ class Main extends React.Component {
 
 
   apiTotal(e) {
-    console.log(e);
     const current = this.state.enoughCalled;
     const newNum = current + e;
     this.setState({enoughCalled: newNum})
@@ -82,7 +80,6 @@ class Main extends React.Component {
   }
 
   callAgain() {
-    console.log('Images Needed', this.state.needed, 'Images called so far', this.state.enoughCalled)
     if(this.state.enoughCalled < this.state.needed) {
       this.getImages();
     } else {
@@ -114,7 +111,7 @@ class Main extends React.Component {
     var ctx = c.getContext("2d");
     ctx.drawImage(img,1,1);
     // const value = grid.findBestValue(width, height);
-    const value = 40;
+    const value = 80;
     this.props.updateSize(width, height, value);
     const array = grid.getColors(canvasGap, c, ctx, img, width, height);
     this.props.updateArray(array);
@@ -125,7 +122,6 @@ class Main extends React.Component {
     const totalBlocks = blocks.length * blocks[0].length;
     this.props.updateTotalBlocks(totalBlocks);
     let imagesNeeded = ((width / value) * (height / value));
-    console.log('imagesNeeded', imagesNeeded);
     let that = this;
     this.needed(imagesNeeded);
     this.getImages();

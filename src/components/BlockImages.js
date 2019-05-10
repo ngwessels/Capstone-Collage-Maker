@@ -1,28 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 let allImages = [];
 let total = 0;
 
 
 
 
-export class BlockImages extends React.Component{
+export class BlockImages{
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      updateImages,
-    }
-    this.updateImageFunction = this.updateImageFunction.bind(this);
-  }
-
-  updateImageFunction(e) {
-    this.setState({updateImages: e})
-  }
-
-  dominantImages(imgArray, value, bigArray, updateImages) {
-    this.updateImageFunction(updateImages);
+  dominantImages(imgArray, value, bigArray, updateImages, blocksFinished) {
     let that = this;
     const length = imgArray.length;
     let array = [];
@@ -30,14 +14,22 @@ export class BlockImages extends React.Component{
     const imageBody = document.getElementById('firstPicture');
     let image = [];
     for(let i = 0; i < length; i++) {
-      let createCanvas = document.createElement(`canvas${i}`);
-      that.runImage(i, imgArray, value, imageBody, canvasBody, bigArray);
-      document.getElementById('secondCanvas').width = value;
-      document.getElementById('secondCanvas').height = value;
+      const innerLength = imgArray[i].length;
+      for(let e = 0; e < innerLength; e++) {
+        let createCanvas = document.createElement(`canvas${i}`);
+        that.runImage(i, e, imgArray, value, imageBody, canvasBody, bigArray, updateImages);
+        document.getElementById('secondCanvas').width = value;
+        document.getElementById('secondCanvas').height = value;
+      }
     }
+    setTimeout(function() {
+      blocksFinished(true);
+
+
+    }, 10000)
   }
 
-  runImage(i, imgs, value, imageBody, canvasBody, array) {
+  runImage(i, e, imgs, value, imageBody, canvasBody, array, updateImages) {
     let that = this;
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'blob'; //so you can access the response like a normal URL
@@ -51,7 +43,7 @@ export class BlockImages extends React.Component{
           currentImage.header = "Access-Control-Allow-Origin";
           currentImage.width = value;
           currentImage.height = value;
-          currentImage.src = imgs[i];
+          currentImage.src = imgs[i][e];
           currentImage.src = URL.createObjectURL(xhr.response);
           let imageDivLength = document.getElementById('firstPicture').childElementCount;
           currentImage.id=`currentId${imageDivLength + 1}`;
@@ -76,10 +68,10 @@ export class BlockImages extends React.Component{
     if(total == imgs.length) {
       setTimeout(function() {
         allImages.push(array);
-        this.state.updateImages(allImages);
+        updateImages(allImages);
       }, 4000)
     }
-    xhr.open('GET', imgs[i], true);
+    xhr.open('GET', imgs[i][e], true);
     xhr.send();
   }
 
@@ -147,5 +139,6 @@ export class BlockImages extends React.Component{
     }
     return array;
   }
+
 
 }
