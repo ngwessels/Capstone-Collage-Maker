@@ -52,10 +52,10 @@ export class App extends React.Component {
   }
 
   runCombine() {
-    if(this.state.isFinished != true) {
-      console.log('running');
-
-    }
+    let combine = new CombineImages();
+    let blockImage = new BlockImages();
+    blockImage.dominantImages(this.state.string, this.state.value, this.state.array, this.state.updateImages);
+    combine.main(this.state);
   }
 
   isFinished(info) {
@@ -63,12 +63,6 @@ export class App extends React.Component {
       finished: info
     })
     this.runCombine();
-    let combine = new CombineImages();
-    // if(info == true) {
-    //   let blockImage = new BlockImages();
-    //   blockImage.dominantImages(this.state.string, this.state.value, this.state.array, this.state.updateImages);
-    //   combine.main(this.state);
-    // }
   }
 
   updateArray(info){
@@ -78,11 +72,10 @@ export class App extends React.Component {
         info
       ]
     })
-
-
   }
 
   updateImages(info) {
+    console.log('is called');
     this.setState({
       images: [
         ...this.state.images, info

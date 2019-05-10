@@ -13,11 +13,13 @@ class Main extends React.Component {
     super(props);
     this.state = {
       enoughCalled: 0,
+      needed: 0,
     }
 
     this.main = this.main.bind(this);
     this.getImages = this.getImages.bind(this);
-    this.enoughCalled = this.enoughCalled.bind(this);
+    this.apiTotal = this.apiTotal.bind(this);
+    this.needed = this.needed.bind(this);
   }
 
   apiFinished(info) {
@@ -50,36 +52,53 @@ class Main extends React.Component {
           arrayString.push([currentData]);
         }
         that.props.updateImage(arrayString, arrayLength);
+        that.apiTotal(arrayLength);
       })
       .catch(err => {
       })
 
   }
 
-
-
-
-  enoughCalled(e) {
-    console.log(e);
-    this.setState({})
+  needed(e) {
+    this.setState({needed: e});
   }
 
-  getImages(needed) {
+  enoughCalled() {
+    console.log('current Length of state', this.state.enoughCalled);
+    if(this.state.enoughCalled > this.state.needed) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  apiTotal(e) {
+    console.log(e);
+    const current = this.state.enoughCalled;
+    const newNum = current + e;
+    this.setState({enoughCalled: newNum})
+    this.callAgain();
+  }
+
+  callAgain() {
+    console.log('Images Needed', this.state.needed, 'Images called so far', this.state.enoughCalled)
+    if(this.state.enoughCalled < this.state.needed) {
+      this.getImages();
+    } else {
+      this.props.isFinished(true);
+    }
+  }
+
+
+  getImages() {
     let that = this;
     let i = 0;
-    for(i = 0; i <= needed; i = i + 130) {
-      let a = 0;
-      setTimeout(function() {
-        const random = Math.floor(Math.random() * 12);
-        const randomSkip = Math.floor(Math.random() * 100);
-        that.apiDominantImages(randomSkip, random);
-        if(a >= needed) {
-          that.props.isFinished(true);
-        }
-        console.log();
-        a = a + 130;
-      }, 1200 * a)
-    }
+    const random = Math.floor(Math.random() * 12);
+    const randomSkip = Math.floor(Math.random() * 100);
+    this.apiDominantImages(randomSkip, random);
+    const result = this.enoughCalled();
+
   }
 
 
@@ -108,7 +127,8 @@ class Main extends React.Component {
     let imagesNeeded = ((width / value) * (height / value));
     console.log('imagesNeeded', imagesNeeded);
     let that = this;
-    this.getImages(imagesNeeded);
+    this.needed(imagesNeeded);
+    this.getImages();
     let total = 0;
     let lastY = 0;
     grid.createImage(yLength, xLength, blocks, grid, array, width, height, canvasGap, c, ctx, total, lastY, value, this.props.updateColors);
