@@ -29,17 +29,19 @@ class Main extends React.Component {
 
 
 
-  apiDominantImages(skip, num) {
+  apiDominantImages(skip, num, randomObject) {
     let colors = ["Black", "Blue", "Brown", "Gray", "Green", "Orange", "Pink", "Purple", "Red", "Teal", "White", "Yellow"];
-    let currentColor = colors[num];
+    let objects = ['cat', 'dog', 'duck', 'cow', 'wilderness', 'starwars', 'animals'];
+    let currentColor = 'Yellow';
     var myHeaders = new Headers();
+    let object = objects[randomObject];
     myHeaders.append('Ocp-Apim-Subscription-Key', process.env.imageAPI);
     let that = this;
     var myInit = {
       method: 'GET',
       headers: myHeaders
     };
-    var myRequest = new Request(`https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=cats&count=150&offset=${skip}&mkt=en-us&safeSearch=Moderate&width=100&height=100&imageType=Photo&color=${currentColor}`, myInit);
+    var myRequest = new Request(`https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=${object}&count=150&offset=${skip}&mkt=en-us&safeSearch=Moderate&width=100&height=100&imageType=Photo&color=${currentColor}`, myInit);
     fetch(myRequest)
       .then(response => {
         return response.json()
@@ -93,7 +95,8 @@ class Main extends React.Component {
     let i = 0;
     const random = Math.floor(Math.random() * 12);
     const randomSkip = Math.floor(Math.random() * 100);
-    this.apiDominantImages(randomSkip, random);
+    const randomObject = Math.floor(Math.random() * 7)
+    this.apiDominantImages(randomSkip, random, randomObject);
     const result = this.enoughCalled();
 
   }
@@ -110,8 +113,8 @@ class Main extends React.Component {
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     ctx.drawImage(img,1,1);
-    const value = grid.findBestValue(width, height);
-    // const value = 20;
+    // const value = grid.findBestValue(width, height);
+    const value = 10;
     this.props.updateSize(width, height, value);
     const array = grid.getColors(canvasGap, c, ctx, img, width, height);
     this.props.updateArray(array);
@@ -121,7 +124,7 @@ class Main extends React.Component {
     const xLength = blocks[0].length;
     const totalBlocks = blocks.length * blocks[0].length;
     this.props.updateTotalBlocks(totalBlocks);
-    let imagesNeeded = ((width / value) * (height / value));
+    let imagesNeeded = ((width / value) * (height / value)) * 4;
     let that = this;
     this.needed(imagesNeeded);
     this.getImages();
