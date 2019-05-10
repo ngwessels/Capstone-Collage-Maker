@@ -110,8 +110,8 @@ class Main extends React.Component {
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     ctx.drawImage(img,1,1);
-    // const value = grid.findBestValue(width, height);
-    const value = 80;
+    const value = grid.findBestValue(width, height);
+    // const value = 20;
     this.props.updateSize(width, height, value);
     const array = grid.getColors(canvasGap, c, ctx, img, width, height);
     this.props.updateArray(array);

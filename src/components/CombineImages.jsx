@@ -44,10 +44,12 @@ class CombineImages extends React.Component {
     const instanceLength = images.length;
     for(let i = 0; i < instanceLength; i++) {
       const instance = images[0][i];
+      console.log(instance);
       if(instance != images[-1]){
         const imageUrl = instance[0];
         const pixelValues = instance[1];
         const dominantColor = instance[2];
+        console.log(dominantColor);
         const apiImageRed = dominantColor[0];
         const apiImageGreen = dominantColor[1];
         const apiImageBlue = dominantColor[2];
@@ -118,7 +120,6 @@ class CombineImages extends React.Component {
         instance.push(colors[total]);
         total++;
       }
-      console.log(instance)
       array.push(instance);
     }
     return array;
