@@ -45,7 +45,6 @@ export class App extends React.Component {
   }
 
   updateImage(info, add) {
-    console.log(info, add)
     this.setState(prevState => ({
       string: [...prevState.string, info],
       stringLength:this.state.stringLength + add
@@ -53,6 +52,7 @@ export class App extends React.Component {
   }
 
   isFinished(info) {
+    console.log(info);
     this.setState({
       finished: info
     })
@@ -76,7 +76,6 @@ export class App extends React.Component {
   }
 
   updateImages(info) {
-    console.log(info);
     this.setState({
       images: [
         ...this.state.images, info
@@ -113,7 +112,6 @@ export class App extends React.Component {
 
 
   render() {
-    console.log(this.state.string);
     return (
       <Switch>
         <Route path='/' render={()=><Main blocks={this.state.blocks} array={this.state.array} colors={this.state.colors} updateArray={this.updateArray} updateBlocks={this.updateBlocks} updateColors={this.updateColors} isFinished={this.isFinished} updateImages={this.updateImages} updateSize={this.updateSize} updateImage={this.updateImage} string={this.state.string} stringLength={this.state.stringLength} totalBlocks={this.state.totalBlocks} updateTotalBlocks={this.updateTotalBlocks} />} />

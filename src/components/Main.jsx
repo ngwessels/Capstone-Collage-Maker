@@ -58,13 +58,17 @@ class Main extends React.Component {
   getImages(needed) {
     let that = this;
     let a = 0;
-    for(let i = 0; i < needed; i = i + 130) {
-      a++
+    for(let i = 0; i <= needed; i = i + 130) {
       setTimeout(function() {
         const random = Math.floor(Math.random() * 12);
         const randomSkip = Math.floor(Math.random() * 100);
         that.apiDominantImages(randomSkip, random);
-      }, 333 * a)
+        console.log(a, i);
+        if(a == i) {
+          that.props.isFinished(true);
+        }
+        a++
+      }, 400 * a)
 
     }
   }
@@ -105,6 +109,7 @@ class Main extends React.Component {
 
 
   render() {
+    console.log(this.props.stringLength);
     let canvasStyle = {
     };
 
