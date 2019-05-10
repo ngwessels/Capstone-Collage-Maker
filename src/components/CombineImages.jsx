@@ -40,6 +40,7 @@ class CombineImages extends React.Component {
   loop(x, y, structuredColors, images, block, value, ctx, c, width, height) {
     // console.log('x', x, 'y', y, 'dominantColor', structuredColors, 'image', images, 'blocks', blocks, 'value', value);
     const newImageArray = [];
+    console.log(images);
     const instanceLength = images[0].length;
     for(let i = 0; i < instanceLength; i++) {
       const instance = images[0][i];

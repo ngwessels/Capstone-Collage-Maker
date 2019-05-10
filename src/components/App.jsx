@@ -83,6 +83,7 @@ export class App extends React.Component {
   }
 
   updateImages(info) {
+    console.log('update');
     this.setState({
       images: [
         ...this.state.images, info
