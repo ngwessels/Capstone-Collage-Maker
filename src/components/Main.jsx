@@ -31,7 +31,7 @@ class Main extends React.Component {
 
   apiDominantImages(skip, num) {
     let colors = ["Black", "Blue", "Brown", "Gray", "Green", "Orange", "Pink", "Purple", "Red", "Teal", "White", "Yellow"];
-    let currentColor = colors[11];
+    let currentColor = colors[num];
     var myHeaders = new Headers();
     myHeaders.append('Ocp-Apim-Subscription-Key', process.env.imageAPI);
     let that = this;
@@ -110,8 +110,8 @@ class Main extends React.Component {
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     ctx.drawImage(img,1,1);
-    // const value = grid.findBestValue(width, height);
-    const value = 20;
+    const value = grid.findBestValue(width, height);
+    // const value = 20;
     this.props.updateSize(width, height, value);
     const array = grid.getColors(canvasGap, c, ctx, img, width, height);
     this.props.updateArray(array);

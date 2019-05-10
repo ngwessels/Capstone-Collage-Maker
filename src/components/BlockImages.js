@@ -67,7 +67,6 @@ export class BlockImages{
     total++;
     if(total == imgs.length) {
       setTimeout(function() {
-        allImages.push(array);
         updateImages(allImages);
       }, 4000)
     }
