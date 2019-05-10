@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {CombineImages} from './CombineImages';
 import { BlockImages } from './BlockImages';
 import { Grid } from './Grid';
-import image from "../assets/images/luke.jpg";
+import image from "../assets/images/bird.jpg";
 
 
 
@@ -31,7 +31,7 @@ class Main extends React.Component {
 
   apiDominantImages(skip, num) {
     let colors = ["Black", "Blue", "Brown", "Gray", "Green", "Orange", "Pink", "Purple", "Red", "Teal", "White", "Yellow"];
-    let currentColor = colors[num];
+    let currentColor = colors[11];
     var myHeaders = new Headers();
     myHeaders.append('Ocp-Apim-Subscription-Key', process.env.imageAPI);
     let that = this;
