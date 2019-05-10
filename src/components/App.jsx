@@ -51,11 +51,18 @@ export class App extends React.Component {
     }))
   }
 
+  runCombine() {
+    if(this.state.isFinished != true) {
+      console.log('running');
+
+    }
+  }
+
   isFinished(info) {
-    console.log(info);
     this.setState({
       finished: info
     })
+    this.runCombine();
     let combine = new CombineImages();
     // if(info == true) {
     //   let blockImage = new BlockImages();

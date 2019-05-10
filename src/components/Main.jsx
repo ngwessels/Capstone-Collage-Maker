@@ -11,9 +11,13 @@ class Main extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      enoughCalled: 0,
+    }
 
     this.main = this.main.bind(this);
     this.getImages = this.getImages.bind(this);
+    this.enoughCalled = this.enoughCalled.bind(this);
   }
 
   apiFinished(info) {
@@ -55,21 +59,26 @@ class Main extends React.Component {
 
 
 
+  enoughCalled(e) {
+    console.log(e);
+    this.setState({})
+  }
+
   getImages(needed) {
     let that = this;
-    let a = 0;
-    for(let i = 0; i <= needed; i = i + 130) {
+    let i = 0;
+    for(i = 0; i <= needed; i = i + 130) {
+      let a = 0;
       setTimeout(function() {
         const random = Math.floor(Math.random() * 12);
         const randomSkip = Math.floor(Math.random() * 100);
         that.apiDominantImages(randomSkip, random);
-        console.log(a, i);
-        if(a == i) {
+        if(a >= needed) {
           that.props.isFinished(true);
         }
-        a++
-      }, 400 * a)
-
+        console.log();
+        a = a + 130;
+      }, 1200 * a)
     }
   }
 
@@ -85,8 +94,8 @@ class Main extends React.Component {
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     ctx.drawImage(img,1,1);
-    const value = grid.findBestValue(width, height);
-    // const value = 10;
+    // const value = grid.findBestValue(width, height);
+    const value = 40;
     this.props.updateSize(width, height, value);
     const array = grid.getColors(canvasGap, c, ctx, img, width, height);
     this.props.updateArray(array);
@@ -109,7 +118,6 @@ class Main extends React.Component {
 
 
   render() {
-    console.log(this.props.stringLength);
     let canvasStyle = {
     };
 
