@@ -17,7 +17,6 @@ class CombineImages extends React.Component {
   }
 
   main(state) {
-    console.log(state);
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     const row = state.width / state.value;
@@ -41,30 +40,26 @@ class CombineImages extends React.Component {
   loop(x, y, structuredColors, images, block, value, ctx, c, width, height) {
     // console.log('x', x, 'y', y, 'dominantColor', structuredColors, 'image', images, 'blocks', blocks, 'value', value);
     const newImageArray = [];
-    const instanceLength = images.length;
-    for(let i = 0; i < instanceLength; i++) {
+    const instanceLength = images[0].length;
+    for(let i = 1; i < instanceLength; i++) {
       const instance = images[0][i];
-      console.log(instance);
-      if(instance != images[-1]){
-        const imageUrl = instance[0];
-        const pixelValues = instance[1];
-        const dominantColor = instance[2];
-        console.log(dominantColor);
-        const apiImageRed = dominantColor[0];
-        const apiImageGreen = dominantColor[1];
-        const apiImageBlue = dominantColor[2];
-        const mainRed = structuredColors[0];
-        const mainGreen = structuredColors[1];
-        const mainBlue = structuredColors[2];
-        const red = mainRed - apiImageRed;
-        const green = mainGreen - apiImageGreen;
-        const blue = mainBlue - apiImageBlue;
-        console.log(dominantColor, red, green, blue);
-        if((red < 5 && red > -5) && (green < 5 && green > -5) && (blue < 5 && blue > -5)) {
-          console.log('Perfect Image At Block', block, 'Dominant Color is', dominantColor);
-          this.placeImage(pixelValues, block, ctx, c, width, height, value);
-          return;
-        }
+      const imageUrl = instance[0];
+      const pixelValues = instance[1];
+      const dominantColor = instance[2];
+      const apiImageRed = dominantColor[0];
+      const apiImageGreen = dominantColor[1];
+      const apiImageBlue = dominantColor[2];
+      const mainRed = structuredColors[0];
+      const mainGreen = structuredColors[1];
+      const mainBlue = structuredColors[2];
+      const red = mainRed - apiImageRed;
+      const green = mainGreen - apiImageGreen;
+      const blue = mainBlue - apiImageBlue;
+      console.log('dominantColor', dominantColor, 'red', red, 'green', green, 'blue', blue)
+      if((red < 5 && red > -5) && (green < 5 && green > -5) && (blue < 5 && blue > -5)) {
+        console.log('Perfect Image At Block', block, 'Dominant Color is', dominantColor);
+        this.placeImage(pixelValues, block, ctx, c, width, height, value);
+        return;
       }
     }
 

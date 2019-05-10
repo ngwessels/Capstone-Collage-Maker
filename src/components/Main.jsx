@@ -110,8 +110,8 @@ class Main extends React.Component {
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     ctx.drawImage(img,1,1);
-    const value = grid.findBestValue(width, height);
-    // const value = 20;
+    // const value = grid.findBestValue(width, height);
+    const value = 20;
     this.props.updateSize(width, height, value);
     const array = grid.getColors(canvasGap, c, ctx, img, width, height);
     this.props.updateArray(array);
@@ -175,8 +175,8 @@ class Main extends React.Component {
 
 }
 Main.propTypes = {
-  colors: PropTypes.object,
-  blocks: PropTypes.object,
+  colors: PropTypes.array,
+  blocks: PropTypes.array,
   updateArray: PropTypes.func,
   updateBlocks: PropTypes.func,
   updateColors: PropTypes.func,
