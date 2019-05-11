@@ -44,8 +44,11 @@ SCSS<br>
 Is there anything else you’d like your instructor to know? <br>
 Here is an example of what I am wanting this application to do! Im wanting to make a photo out of photos.
 
-
+### Example Image
 ![Image Example](src/assets/images/example.jpg)
+
+### Sketch Planning Images
+![Sketch Example](src/assets/images/sketch-example.png)
 
 
 ### Installation
