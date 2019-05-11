@@ -16,7 +16,7 @@ class CombineImages extends React.Component {
     }
   }
 
-  main(state) {
+  main(state, imagesPlaced) {
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     const row = state.width / state.value;
@@ -35,6 +35,7 @@ class CombineImages extends React.Component {
       }
     }
     console.log('done');
+    imagesPlaced(true);
   }
 
   loop(x, y, structuredColors, images, block, value, ctx, c, width, height) {
@@ -56,7 +57,7 @@ class CombineImages extends React.Component {
         const red = mainRed - apiImageRed;
         const green = mainGreen - apiImageGreen;
         const blue = mainBlue - apiImageBlue;
-        if((red < 10 && red > -10) && (green < 10 && green > -10) && (blue < 10 && blue > -10)) {
+        if((red < 5 && red > -5) && (green < 5 && green > -5) && (blue < 5 && blue > -5)) {
           console.log('Perfect Image At Block', block, 'Dominant Color is', dominantColor);
           this.placeImage(pixelValues, block, ctx, c, width, height, value);
           return;

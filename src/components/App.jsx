@@ -9,6 +9,7 @@ let blocks;
 import { Switch, Route, withRouter } from 'react-router-dom';
 import Main from './Main';
 import { BlockImages } from './BlockImages';
+import { Beautify } from './Beautify';
 
 
 export class App extends React.Component {
@@ -27,7 +28,9 @@ export class App extends React.Component {
       string: [],
       stringLength: 0,
       totalBlocks: 0,
-      blocksFinished: false
+      blocksFinished: false,
+      imagesPlaced: false,
+      ctx: '',
     }
     this.updateArray = this.updateArray.bind(this);
     this.updateBlocks = this.updateBlocks.bind(this);
@@ -38,12 +41,24 @@ export class App extends React.Component {
     this.updateImage = this.updateImage.bind(this);
     this.updateTotalBlocks = this.updateTotalBlocks.bind(this);
     this.blocksFinished = this.blocksFinished.bind(this);
+    this.imagesPlaced = this.imagesPlaced.bind(this);
+    this.updateCTX = this.updateCTX.bind(this);
+  }
+
+  updateCTX(e) {
+    this.setState({ctx: e});
+  }
+
+  imagesPlaced(e) {
+    this.setState({imagesPlaced: e});
+    let beauty = new Beautify();
+    beauty.main(this.state);
   }
 
   blocksFinished() {
     this.setState({blocksFinished: true});
     let combine = new CombineImages();
-    combine.main(this.state);
+    combine.main(this.state, this.imagesPlaced);
 
   }
 
@@ -121,7 +136,7 @@ export class App extends React.Component {
   render() {
     return (
       <Switch>
-        <Route path='/' render={()=><Main blocks={this.state.blocks} array={this.state.array} colors={this.state.colors} updateArray={this.updateArray} updateBlocks={this.updateBlocks} updateColors={this.updateColors} isFinished={this.isFinished} updateImages={this.updateImages} updateSize={this.updateSize} updateImage={this.updateImage} string={this.state.string} stringLength={this.state.stringLength} totalBlocks={this.state.totalBlocks} updateTotalBlocks={this.updateTotalBlocks} />} />
+        <Route path='/' render={()=><Main blocks={this.state.blocks} array={this.state.array} colors={this.state.colors} updateArray={this.updateArray} updateBlocks={this.updateBlocks} updateColors={this.updateColors} isFinished={this.isFinished} updateImages={this.updateImages} updateSize={this.updateSize} updateImage={this.updateImage} string={this.state.string} stringLength={this.state.stringLength} totalBlocks={this.state.totalBlocks} updateTotalBlocks={this.updateTotalBlocks} updateCTX={this.updateCTX}/>} />
       </Switch>
     )
   }
