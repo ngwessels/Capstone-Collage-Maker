@@ -40,7 +40,6 @@ class CombineImages extends React.Component {
   loop(x, y, structuredColors, images, block, value, ctx, c, width, height) {
     // console.log('x', x, 'y', y, 'dominantColor', structuredColors, 'image', images, 'blocks', blocks, 'value', value);
     const newImageArray = [];
-    console.log(images);
     const instanceLength = images[0].length;
     for(let i = 0; i < instanceLength; i++) {
       const instance = images[0][i];
@@ -57,8 +56,7 @@ class CombineImages extends React.Component {
         const red = mainRed - apiImageRed;
         const green = mainGreen - apiImageGreen;
         const blue = mainBlue - apiImageBlue;
-        // console.log('dominantColor', dominantColor, 'red', red, 'green', green, 'blue', blue)
-        if((red < 5 && red > -5) && (green < 5 && green > -5) && (blue < 5 && blue > -5)) {
+        if((red < 10 && red > -10) && (green < 10 && green > -10) && (blue < 10 && blue > -10)) {
           console.log('Perfect Image At Block', block, 'Dominant Color is', dominantColor);
           this.placeImage(pixelValues, block, ctx, c, width, height, value);
           return;

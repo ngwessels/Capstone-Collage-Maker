@@ -29,9 +29,11 @@ class Main extends React.Component {
 
 
 
-  apiDominantImages(skip, num) {
+  apiDominantImages(skip, num, randomobject) {
     let colors = ["Black", "Blue", "Brown", "Gray", "Green", "Orange", "Pink", "Purple", "Red", "Teal", "White", "Yellow"];
-    let currentColor = colors[11];
+    let objects = ['Dog', 'Cat', 'Horse', 'StarWars', 'Avengers', 'Wilderness', 'trees', 'ocean', 'sand', 'Birds', 'sun', 'vegtables', 'fire'];
+    let currentColor = colors[num];
+    const object = objects[randomobject];
     var myHeaders = new Headers();
     myHeaders.append('Ocp-Apim-Subscription-Key', process.env.imageAPI);
     let that = this;
@@ -39,24 +41,23 @@ class Main extends React.Component {
       method: 'GET',
       headers: myHeaders
     };
-    var myRequest = new Request(`https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=cats&count=150&offset=${skip}&mkt=en-us&safeSearch=Moderate&width=100&height=100&imageType=Photo&color=${currentColor}`, myInit);
+    var myRequest = new Request(`https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=${object}&count=150&offset=${skip}&mkt=en-us&safeSearch=Moderate&width=100&height=100&imageType=Photo`, myInit);
     fetch(myRequest)
-      .then(response => {
-        return response.json()
-      })
-      .then(data => {
-        let arrayString = [];
-        let arrayLength = data.value.length;
-        for(let i = 0; i < arrayLength; i++) {
-          let currentData = data.value[i].contentUrl;
-          arrayString.push([currentData]);
-        }
-        that.props.updateImage(arrayString, arrayLength);
-        that.apiTotal(arrayLength);
-      })
-      .catch(err => {
-      })
-
+    .then(response => {
+      return response.json()
+    })
+    .then(data => {
+      let arrayString = [];
+      let arrayLength = data.value.length;
+      for(let i = 0; i < arrayLength; i++) {
+        let currentData = data.value[i].contentUrl;
+        arrayString.push([currentData]);
+      }
+      that.props.updateImage(arrayString, arrayLength);
+      that.apiTotal(arrayLength);
+    })
+    .catch(err => {
+    })
   }
 
   needed(e) {
@@ -73,6 +74,7 @@ class Main extends React.Component {
 
 
   apiTotal(e) {
+    console.log(this.state.enoughCalled + e);
     const current = this.state.enoughCalled;
     const newNum = current + e;
     this.setState({enoughCalled: newNum})
@@ -93,7 +95,8 @@ class Main extends React.Component {
     let i = 0;
     const random = Math.floor(Math.random() * 12);
     const randomSkip = Math.floor(Math.random() * 100);
-    this.apiDominantImages(randomSkip, random);
+    const randomObject = Math.floor(Math.random() * 13);
+    this.apiDominantImages(randomSkip, random, randomObject);
     const result = this.enoughCalled();
 
   }
@@ -111,7 +114,7 @@ class Main extends React.Component {
     var ctx = c.getContext("2d");
     ctx.drawImage(img,1,1);
     // const value = grid.findBestValue(width, height);
-    const value = 40;
+    const value = 10;
     this.props.updateSize(width, height, value);
     const array = grid.getColors(canvasGap, c, ctx, img, width, height);
     this.props.updateArray(array);
@@ -122,8 +125,10 @@ class Main extends React.Component {
     const totalBlocks = blocks.length * blocks[0].length;
     this.props.updateTotalBlocks(totalBlocks);
     let imagesNeeded = ((width / value) * (height / value));
+    imagesNeeded = imagesNeeded * 4;
     let that = this;
     this.needed(imagesNeeded);
+    console.log('Images Needed', imagesNeeded)
     this.getImages();
     let total = 0;
     let lastY = 0;
@@ -161,7 +166,7 @@ class Main extends React.Component {
     }
 
     return (
-      <div style={{width: '100%', height: '200vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+      <div style={{width: '100%', height: '9000vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
         <button style={button}onClick={this.main}>Click Me</button>
         <div style={imageBlocks}>
           <img style={imgStyle} src={image} alt="" id="myPic"/>

@@ -26,7 +26,7 @@ export class BlockImages{
       blocksFinished(true);
 
 
-    }, 6000)
+    }, 100000)
   }
 
   runImage(i, e, imgs, value, imageBody, canvasBody, array, updateImages) {
