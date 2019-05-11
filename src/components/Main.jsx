@@ -43,7 +43,7 @@ class Main extends React.Component {
       method: 'GET',
       headers: myHeaders
     };
-    var myRequest = new Request(`https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=${object}&count=150&offset=${skip}&mkt=en-us&safeSearch=Moderate&width=100&height=100&imageType=Photo`, myInit);
+    var myRequest = new Request(`https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=${object}&count=150&offset=${skip}&mkt=en-us&safeSearch=Moderate&width=100&height=100&imageType=Photo&color=${currentColor}`, myInit);
     fetch(myRequest)
     .then(response => {
       return response.json()
@@ -128,7 +128,7 @@ class Main extends React.Component {
     const totalBlocks = blocks.length * blocks[0].length;
     this.props.updateTotalBlocks(totalBlocks);
     let imagesNeeded = ((width / value) * (height / value));
-    imagesNeeded = imagesNeeded * 6;
+    imagesNeeded = imagesNeeded * 12;
     let that = this;
     this.needed(imagesNeeded);
     console.log('Images Needed', imagesNeeded)
