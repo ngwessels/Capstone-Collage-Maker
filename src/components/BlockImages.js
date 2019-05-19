@@ -26,7 +26,7 @@ export class BlockImages{
       blocksFinished(true);
 
 
-    }, 60000)
+    }, 60000);
   }
 
   runImage(i, e, imgs, value, imageBody, canvasBody, array, updateImages) {
@@ -34,41 +34,41 @@ export class BlockImages{
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'blob'; //so you can access the response like a normal URL
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+      if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
 
-          let createImageLoc = new Image;
-          createImageLoc = document.createElement(`img${i}`);
-          let currentImage = document.createElement("IMG");
-          currentImage.crossOrigin = "Anonymous";
-          currentImage.header = "Access-Control-Allow-Origin";
-          currentImage.width = value;
-          currentImage.height = value;
-          currentImage.src = imgs[i][e];
-          currentImage.src = URL.createObjectURL(xhr.response);
-          let imageDivLength = document.getElementById('firstPicture').childElementCount;
-          currentImage.id=`currentId${imageDivLength + 1}`;
-          imageBody.appendChild(currentImage);
-          let createCanvas = document.createElement('canvas');
-          createCanvas.id = `canvasId${imageDivLength + 1}`;
-          createCanvas.width = value;
-          createCanvas.height = value;
-          var ctx2 = createCanvas.getContext('2d');
-          ctx2.clearRect(0, 0, value, value);
-          canvasBody.appendChild(createCanvas);
-          currentImage.onload = function(){
-            ctx2.drawImage(currentImage,1,1,value, value);
-            const pictureColors = that.getColors(ctx2, currentImage, value, value);
-            const dominantColor = that.dominantColor(pictureColors, value);
-            const instance = [currentImage.src, pictureColors, dominantColor];
-            allImages.push(instance);
-          }
-        }
+        let createImageLoc = new Image;
+        createImageLoc = document.createElement(`img${i}`);
+        let currentImage = document.createElement('IMG');
+        currentImage.crossOrigin = 'Anonymous';
+        currentImage.header = 'Access-Control-Allow-Origin';
+        currentImage.width = value;
+        currentImage.height = value;
+        currentImage.src = imgs[i][e];
+        currentImage.src = URL.createObjectURL(xhr.response);
+        let imageDivLength = document.getElementById('firstPicture').childElementCount;
+        currentImage.id=`currentId${imageDivLength + 1}`;
+        imageBody.appendChild(currentImage);
+        let createCanvas = document.createElement('canvas');
+        createCanvas.id = `canvasId${imageDivLength + 1}`;
+        createCanvas.width = value;
+        createCanvas.height = value;
+        var ctx2 = createCanvas.getContext('2d');
+        ctx2.clearRect(0, 0, value, value);
+        canvasBody.appendChild(createCanvas);
+        currentImage.onload = function(){
+          ctx2.drawImage(currentImage,1,1,value, value);
+          const pictureColors = that.getColors(ctx2, currentImage, value, value);
+          const dominantColor = that.dominantColor(pictureColors, value);
+          const instance = [currentImage.src, pictureColors, dominantColor];
+          allImages.push(instance);
+        };
+      }
     };
     total++;
     if(total == imgs.length) {
       setTimeout(function() {
         updateImages(allImages);
-      }, 4000)
+      }, 4000);
     }
     xhr.open('GET', imgs[i][e], true);
     xhr.send();

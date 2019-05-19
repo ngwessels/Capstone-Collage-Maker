@@ -12,7 +12,7 @@ export class Beautify {
     const ctx = state.ctx;
     var imgData = ctx.getImageData(0, 0, columnLength, rowLength);
     console.log('column', columnLength, 'row', rowLength);
-        this.beautify(state.array[0], imgData, ctx, rowLength, columnLength)
+    this.beautify(state.array[0], imgData, ctx, rowLength, columnLength);
   }
 
 

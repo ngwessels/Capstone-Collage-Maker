@@ -40,7 +40,7 @@ export class Grid{
   }
 
 
-// This is similar to a css grid but im having to do it based off the value that findBestValue() is returning. It gets starting pixel for every grid in every row and appends it to an array
+  // This is similar to a css grid but im having to do it based off the value that findBestValue() is returning. It gets starting pixel for every grid in every row and appends it to an array
 
   getBlocks(array, value, width, height) {
     let startX = 0;
@@ -126,7 +126,7 @@ export class Grid{
         let newRed = longest[0];
         let newGreen = longest[1];
         let newBlue = longest[2];
-        ctx.fillStyle = "rgba("+newRed+","+newGreen+","+newBlue+","+(255)+")";
+        ctx.fillStyle = 'rgba('+newRed+','+newGreen+','+newBlue+','+(255)+')';
         ctx.fillRect( x, y, 1, 1 );
       }
     }

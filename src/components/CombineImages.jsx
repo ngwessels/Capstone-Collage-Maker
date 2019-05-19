@@ -13,12 +13,12 @@ class CombineImages extends React.Component {
       structureColors: [],
       blocks: [],
       blocksTotal: 0,
-    }
+    };
   }
 
   main(state, imagesPlaced) {
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
+    var c = document.getElementById('myCanvas');
+    var ctx = c.getContext('2d');
     const row = state.width / state.value;
     const column = state.height / state.value;
     const structuredColors = this.structuredColors(state.colors, row, column);

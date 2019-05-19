@@ -31,7 +31,7 @@ export class App extends React.Component {
       blocksFinished: false,
       imagesPlaced: false,
       ctx: '',
-    }
+    };
     this.updateArray = this.updateArray.bind(this);
     this.updateBlocks = this.updateBlocks.bind(this);
     this.updateColors = this.updateColors.bind(this);
@@ -65,14 +65,14 @@ export class App extends React.Component {
   updateTotalBlocks(info) {
     this.setState(prevState => ({
       totalBlocks: info,
-    }))
+    }));
   }
 
   updateImage(info, add) {
     this.setState(prevState => ({
       string: [...prevState.string, info],
       stringLength:this.state.stringLength + add
-    }))
+    }));
   }
 
   runBlockImages() {
@@ -84,7 +84,7 @@ export class App extends React.Component {
   isFinished(info) {
     this.setState({
       finished: info
-    })
+    });
     this.runBlockImages();
   }
 
@@ -94,7 +94,7 @@ export class App extends React.Component {
         ...this.state.array,
         info
       ]
-    })
+    });
   }
 
   updateImages(info) {
@@ -102,7 +102,7 @@ export class App extends React.Component {
       images: [
         ...this.state.images, info
       ]
-    })
+    });
   }
 
   updateBlocks(info) {
@@ -110,7 +110,7 @@ export class App extends React.Component {
       blocks: [
         ...this.state.blocks, info
       ]
-    })
+    });
   }
 
   updateColors(info) {
@@ -122,14 +122,14 @@ export class App extends React.Component {
     // })
     this.setState(prevState => ({
       colors: [...prevState.colors, info]
-    }))
+    }));
   }
   updateSize(width, height, value) {
     this.setState({
       width: width,
       height: height,
       value: value,
-    })
+    });
   }
 
 
@@ -138,7 +138,7 @@ export class App extends React.Component {
       <Switch>
         <Route path='/' render={()=><Main blocks={this.state.blocks} array={this.state.array} colors={this.state.colors} updateArray={this.updateArray} updateBlocks={this.updateBlocks} updateColors={this.updateColors} isFinished={this.isFinished} updateImages={this.updateImages} updateSize={this.updateSize} updateImage={this.updateImage} string={this.state.string} stringLength={this.state.stringLength} totalBlocks={this.state.totalBlocks} updateTotalBlocks={this.updateTotalBlocks} updateCTX={this.updateCTX}/>} />
       </Switch>
-    )
+    );
   }
 
 
@@ -146,6 +146,6 @@ export class App extends React.Component {
 }
 App.PropTypes = {
 
-}
+};
 
 export default App;
