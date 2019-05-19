@@ -10,6 +10,7 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import Main from './Main';
 import { BlockImages } from './BlockImages';
 import { Beautify } from './Beautify';
+import { connect } from 'react-redux';
 
 
 export class App extends React.Component {
@@ -148,4 +149,16 @@ App.PropTypes = {
 
 };
 
-export default App;
+
+const mapStateToProps = state => {
+  return {
+    masterState:
+    state
+  };
+};
+
+
+
+
+
+export default withRouter(connect(mapStateToProps)(App));
