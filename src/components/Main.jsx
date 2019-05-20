@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {CombineImages} from './CombineImages';
 import { BlockImages } from './BlockImages';
 import { Grid } from './Grid';
-import image from "../assets/images/bird.jpg";
+import image from '../assets/images/bird.jpg';
 
 
 
@@ -14,7 +14,7 @@ class Main extends React.Component {
     this.state = {
       enoughCalled: 0,
       needed: 0,
-    }
+    };
 
     this.main = this.main.bind(this);
     this.getImages = this.getImages.bind(this);
@@ -28,11 +28,8 @@ class Main extends React.Component {
   }
 
 
-
-
-
   apiDominantImages(skip, num, randomobject) {
-    let colors = ["Black", "Blue", "Brown", "Gray", "Green", "Orange", "Pink", "Purple", "Red", "Teal", "White", "Yellow"];
+    let colors = ['Black', 'Blue', 'Brown', 'Gray', 'Green', 'Orange', 'Pink', 'Purple', 'Red', 'Teal', 'White', 'Yellow'];
     let objects = ['Dog', 'Cat', 'Horse', 'StarWars', 'Avengers', 'Wilderness', 'trees', 'ocean', 'sand', 'Birds', 'sun', 'vegtables', 'fire'];
     let currentColor = colors[num];
     const object = objects[randomobject];
@@ -45,21 +42,21 @@ class Main extends React.Component {
     };
     var myRequest = new Request(`https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=${object}&count=150&offset=${skip}&mkt=en-us&safeSearch=Moderate&width=100&height=100&imageType=Photo&color=${currentColor}`, myInit);
     fetch(myRequest)
-    .then(response => {
-      return response.json()
-    })
-    .then(data => {
-      let arrayString = [];
-      let arrayLength = data.value.length;
-      for(let i = 0; i < arrayLength; i++) {
-        let currentData = data.value[i].contentUrl;
-        arrayString.push([currentData]);
-      }
-      that.props.updateImage(arrayString, arrayLength);
-      that.apiTotal(arrayLength);
-    })
-    .catch(err => {
-    })
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        let arrayString = [];
+        let arrayLength = data.value.length;
+        for(let i = 0; i < arrayLength; i++) {
+          let currentData = data.value[i].contentUrl;
+          arrayString.push([currentData]);
+        }
+        that.props.updateImage(arrayString, arrayLength);
+        that.apiTotal(arrayLength);
+      })
+      .catch(err => {
+      });
   }
 
   needed(e) {
@@ -79,7 +76,7 @@ class Main extends React.Component {
     console.log(this.state.enoughCalled + e);
     const current = this.state.enoughCalled;
     const newNum = current + e;
-    this.setState({enoughCalled: newNum})
+    this.setState({enoughCalled: newNum});
     this.callAgain();
   }
 
@@ -106,18 +103,18 @@ class Main extends React.Component {
 
   main() {
     const grid = new Grid;
-    var img = document.getElementById("myPic");
+    var img = document.getElementById('myPic');
     var width = img.clientWidth;
     var height = img.clientHeight;
-    let canvasGap = document.getElementById("myCanvas");
+    let canvasGap = document.getElementById('myCanvas');
     document.getElementById('myCanvas').width = width;
     document.getElementById('myCanvas').height = height;
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
+    var c = document.getElementById('myCanvas');
+    var ctx = c.getContext('2d');
     ctx.drawImage(img,1,1);
     this.props.updateCTX(ctx);
     // const value = grid.findBestValue(width, height);
-    const value = 20;
+    const value = 200;
     this.props.updateSize(width, height, value);
     const array = grid.getColors(canvasGap, c, ctx, img, width, height);
     this.props.updateArray(array);
@@ -131,7 +128,7 @@ class Main extends React.Component {
     imagesNeeded = imagesNeeded * 12;
     let that = this;
     this.needed(imagesNeeded);
-    console.log('Images Needed', imagesNeeded)
+    console.log('Images Needed', imagesNeeded);
     this.getImages();
     let total = 0;
     let lastY = 0;
@@ -150,7 +147,7 @@ class Main extends React.Component {
 
     let firstPicture = {
 
-    }
+    };
 
     let imageBlocks = {
       display: 'flex',
@@ -158,7 +155,7 @@ class Main extends React.Component {
       width: '100%',
       justifyContent: 'space-around',
       margin: '0 auto'
-    }
+    };
 
     let button = {
       width: '100px',
@@ -166,7 +163,7 @@ class Main extends React.Component {
       backgroundColor: 'black',
       color: 'white',
       marginTop: '40px'
-    }
+    };
 
     return (
       <div style={{width: '100%', height: '9000vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
@@ -197,6 +194,6 @@ Main.propTypes = {
   totalBlocks: PropTypes.number,
   updateTotalBlocks: PropTypes.func,
   updateCTX: PropTypes.func,
-}
+};
 
 export default Main;

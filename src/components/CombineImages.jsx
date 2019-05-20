@@ -1,45 +1,39 @@
 import React from 'react';
 
 
+let blocks;
+let images;
+
 
 
 class CombineImages extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      row: 0,
-      column: 0,
-      structureColors: [],
-      blocks: [],
-      blocksTotal: 0,
-    }
+
   }
 
   main(state, imagesPlaced) {
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
+    blocks = state.blocks;
+    images = state.images;
+    var c = document.getElementById('myCanvas');
+    var ctx = c.getContext('2d');
     const row = state.width / state.value;
     const column = state.height / state.value;
     const structuredColors = this.structuredColors(state.colors, row, column);
     let blocksTotal = (state.width / state.value) * (state.height / state.value);
-    // console.log('Blocks Total', blocksTotal);
-    // console.log('Structured Array', structuredColors);
-    // console.log('Blocks Array', state.blocks);
-    // console.log('Images Array', state.images);
     for(let y = 0; y < column - 1; y++) {
       for(let x = 0; x < row; x++) {
         const instance = structuredColors[y][x];
         const block = state.blocks[0][y][x];
-        this.loop(x, y, instance, state.images, block, state.value, ctx, c, state.width, state.height);
+        this.loop(x, y, instance, block, state.value, ctx, c, state.width, state.height);
       }
     }
     console.log('done');
     imagesPlaced(true);
   }
 
-  loop(x, y, structuredColors, images, block, value, ctx, c, width, height) {
-    // console.log('x', x, 'y', y, 'dominantColor', structuredColors, 'image', images, 'blocks', blocks, 'value', value);
+  loop(x, y, structuredColors, block, value, ctx, c, width, height) {
     const newImageArray = [];
     const instanceLength = images[0].length;
     for(let i = 0; i < instanceLength; i++) {
@@ -57,23 +51,23 @@ class CombineImages extends React.Component {
         const red = mainRed - apiImageRed;
         const green = mainGreen - apiImageGreen;
         const blue = mainBlue - apiImageBlue;
-        if((red < 5 && red > -5) && (green < 5 && green > -5) && (blue < 5 && blue > -5)) {
+        if((red < 20 && red > -20) && (green < 20 && green > -20) && (blue < 20 && blue > -20)) {
           console.log('Perfect Image At Block', block, 'Dominant Color is', dominantColor);
+          console.log(images);
           this.placeImage(pixelValues, block, ctx, c, width, height, value);
+          images[0].splice(i, 1)
+          console.log('new images length', images[0].length)
           return;
         }
       }
     }
-
   }
 
   placeImage(pixels, blocks, ctx, c, width, height, value) {
-    // console.log(pixels);
     let array = [];
     const toX = blocks[0] + value;
     const toY = blocks[1] + value;
     var imgData = ctx.getImageData(0, 0, c.width, c.height);
-    // console.log('Placing Image between x:', blocks[0], 'and x:', toX, 'and y:', blocks[1], 'and y:', toY);
     let y = 0;
     for(let i = blocks[1]; i < toY; i++) {
       let row = [];
