@@ -55,7 +55,8 @@ class CombineImages extends React.Component {
           console.log('Perfect Image At Block', block, 'Dominant Color is', dominantColor);
           console.log(images);
           this.placeImage(pixelValues, block, ctx, c, width, height, value);
-          images[0] = images[0].slice(i, 0)
+          images[0].splice(i, 1)
+          console.log('new images length', images[0].length)
           return;
         }
       }

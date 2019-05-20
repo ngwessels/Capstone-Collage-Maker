@@ -114,7 +114,7 @@ class Main extends React.Component {
     ctx.drawImage(img,1,1);
     this.props.updateCTX(ctx);
     // const value = grid.findBestValue(width, height);
-    const value = 200;
+    const value = 20;
     this.props.updateSize(width, height, value);
     const array = grid.getColors(canvasGap, c, ctx, img, width, height);
     this.props.updateArray(array);
@@ -125,7 +125,7 @@ class Main extends React.Component {
     const totalBlocks = blocks.length * blocks[0].length;
     this.props.updateTotalBlocks(totalBlocks);
     let imagesNeeded = ((width / value) * (height / value));
-    // imagesNeeded = imagesNeeded * 4;
+    imagesNeeded = imagesNeeded * 12;
     let that = this;
     this.needed(imagesNeeded);
     console.log('Images Needed', imagesNeeded);
