@@ -5,6 +5,18 @@ import { AppContainer } from 'react-hot-loader';
 import AOS from 'aos';
 import 'aos/src/sass/aos.scss';
 import { HashRouter } from 'react-router-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from './reducers/index';
+
+const store = createStore(rootReducer);
+
+let unsubscribe = store.subscribe(() =>
+console.log(store.getState())
+);
+
+
+
 
 const render = (Component) => {
   AOS.init();
@@ -12,7 +24,9 @@ const render = (Component) => {
   ReactDOM.render(
     <AppContainer>
       <HashRouter>
-        <Component/>
+        <Provider store={store}>
+          <Component/>
+        </Provider>
       </HashRouter>
     </AppContainer>,
     document.getElementById('react-app-root')
