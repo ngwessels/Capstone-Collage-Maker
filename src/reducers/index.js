@@ -21,11 +21,12 @@ import colors from './colors';
 import ctx from './ctx';
 import images from './images';
 import imagesPlaced from './imagesPlaced';
-import size from './size';
+import width from './width';
+import height from './height';
+import value from './value';
 import string from './string';
 import stringLength from './stringLength';
 import totalBlocks from './totalBlocks';
-import value from './value';
 import finished from './finished';
 import { combineReducers } from 'redux';
 
@@ -36,15 +37,15 @@ const rootReducer = combineReducers({
   colors: colors,
   images: images,
   finished: finished,
-  size: size,
   value: value,
+  width: width,
+  height: height,
   string: string,
   stringLength: stringLength,
   totalBlocks: totalBlocks,
   blocksFinished: blocksFinished,
   imagesPlaced: imagesPlaced,
   ctx: ctx,
-
 })
 
 export default rootReducer;

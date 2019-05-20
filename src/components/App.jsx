@@ -47,97 +47,173 @@ export class App extends React.Component {
   }
 
   updateCTX(e) {
-    this.setState({ctx: e});
+    const action = {
+      type: 'CTX',
+      result: e,
+    }
+    const { dispatch } = this.props;
+    dispatch(action);
   }
 
   imagesPlaced(e) {
-    this.setState({imagesPlaced: e});
+    const action = {
+      type: 'IMAGESPLACED',
+      result: e,
+    }
+    const { dispatch } = this.props;
+    dispatch(action);
     let beauty = new Beautify();
     beauty.main(this.state);
   }
 
   blocksFinished() {
-    this.setState({blocksFinished: true});
+    console.log('is working')
+    const action = {
+      type: 'BLOCKSFINISHED',
+      result: true,
+    }
+    const { dispatch } = this.props;
+    dispatch(action);
     let combine = new CombineImages();
     combine.main(this.state, this.imagesPlaced);
 
   }
 
   updateTotalBlocks(info) {
-    this.setState(prevState => ({
-      totalBlocks: info,
-    }));
+    const action = {
+      type: 'UPDATETOTALBLOCKS',
+      result: info,
+    }
+    const { dispatch } = this.props;
+    dispatch(action);
   }
 
   updateImage(info, add) {
-    this.setState(prevState => ({
-      string: [...prevState.string, info],
-      stringLength:this.state.stringLength + add
-    }));
+    let currentString;
+    let currentLength;
+    if(this.props.string) {
+      currentString = [this.props.string];
+    } else {
+      currentString = [info];
+    }
+    if(!this.props.stringLength) {
+      currentLength = 0 + add
+    } else {
+      currentLength = this.props.stringLength + add;
+    }
+    const stringAction = {
+      type: 'IMAGESTRING',
+      result: currentString,
+    }
+    const stringLengthAction = {
+      type: 'IMAGESTRINGLENGTH',
+      result: currentLength,
+    }
+    const { dispatch } = this.props;
+    dispatch(stringAction);
+    dispatch(stringLengthAction);
   }
 
   runBlockImages() {
     let blockImage = new BlockImages();
-    blockImage.dominantImages(this.state.string, this.state.value, this.state.array, this.updateImages, this.blocksFinished);
+    blockImage.dominantImages(this.props.string, this.props.value, this.props.array, this.updateImages, this.blocksFinished);
 
   }
 
   isFinished(info) {
-    this.setState({
-      finished: info
-    });
+
+    const action = {
+      type: 'ISFINISHED',
+      result: info,
+    }
+    const { dispatch } = this.props;
+    dispatch(action);
     this.runBlockImages();
   }
 
   updateArray(info){
-    this.setState({
-      array: [
-        ...this.state.array,
-        info
-      ]
-    });
+    let current;
+    if(this.props.array) {
+      current = [this.props.array, info];
+    } else {
+      current = [info]
+    }
+    const action = {
+      type: 'ARRAY',
+      result: current,
+    }
+    const { dispatch } = this.props;
+    dispatch(action);
   }
 
   updateImages(info) {
-    this.setState({
-      images: [
-        ...this.state.images, info
-      ]
-    });
+    let current;
+    console.log('is calling')
+    if(this.props.images) {
+      current = this.props.images;
+      current = [current, info];
+    } else {
+      current = [info];
+    }
+
+    const action = {
+      type: 'IMAGES',
+      result: current,
+    }
+    const { dispatch } = this.props;
+    dispatch(action);
   }
 
   updateBlocks(info) {
-    this.setState({
-      blocks: [
-        ...this.state.blocks, info
-      ]
-    });
+    const { dispatch } = this.props;
+    const action = {
+      type: 'BLOCKS',
+      result: [info],
+    }
+    dispatch(action);
+
   }
 
   updateColors(info) {
-    // this.setState({
-    //   colors: [
-    //     ...this.state.colors,
-    //     info
-    //   ]
-    // })
-    this.setState(prevState => ({
-      colors: [...prevState.colors, info]
-    }));
+    let current;
+    if(this.props.colors) {
+      current = [this.props.colors, info];
+    } else {
+      current = [info];
+    }
+    const action = {
+      type: 'COLORS',
+      result: current,
+    }
+    const { dispatch } = this.props;
+    dispatch(action);
   }
   updateSize(width, height, value) {
-    this.setState({
-      width: width,
-      height: height,
-      value: value,
-    });
+    console.log(width, height, value);
+    const widthAction = {
+      type: 'WIDTH',
+      result: width,
+    }
+    const heightAction = {
+      type: 'HEIGHT',
+      result: height,
+    }
+    const valueAction = {
+      type: 'VALUE',
+      result: value,
+    }
+    const { dispatch } = this.props;
+    dispatch(widthAction);
+    dispatch(heightAction);
+    dispatch(valueAction);
   }
 
 
   render() {
+    console.log(this.props);
     return (
       <Switch>
-        <Route path='/' render={()=><Main blocks={this.state.blocks} array={this.state.array} colors={this.state.colors} updateArray={this.updateArray} updateBlocks={this.updateBlocks} updateColors={this.updateColors} isFinished={this.isFinished} updateImages={this.updateImages} updateSize={this.updateSize} updateImage={this.updateImage} string={this.state.string} stringLength={this.state.stringLength} totalBlocks={this.state.totalBlocks} updateTotalBlocks={this.updateTotalBlocks} updateCTX={this.updateCTX}/>} />
+        <Route path='/' render={()=><Main blocks={this.props.blocks} array={this.props.array} colors={this.props.colors} updateArray={this.updateArray} updateBlocks={this.updateBlocks} updateColors={this.updateColors} isFinished={this.isFinished} updateImages={this.updateImages} updateSize={this.updateSize} updateImage={this.updateImage} string={this.props.string} stringLength={this.props.stringLength} totalBlocks={this.props.totalBlocks} updateTotalBlocks={this.updateTotalBlocks} updateCTX={this.updateCTX}/>} />
       </Switch>
     );
   }
@@ -145,9 +221,6 @@ export class App extends React.Component {
 
 
 }
-App.PropTypes = {
-
-};
 
 
 const mapStateToProps = state => {
