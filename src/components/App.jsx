@@ -231,9 +231,9 @@ export class App extends React.Component {
     //   name: 'nate'
     // })
 
+    // <input type='file' value='upload' id='fileButton' onChange={this.change}/>
     return (
       <div>
-        <input type='file' value='upload' id='fileButton' onChange={this.change}/>
 
         <Switch>
           <Route path='/' render={()=><Main blocks={this.props.blocks} array={this.props.array} colors={this.props.colors} updateArray={this.updateArray} updateBlocks={this.updateBlocks} updateColors={this.updateColors} isFinished={this.isFinished} updateImages={this.updateImages} updateSize={this.updateSize} updateImage={this.updateImage} string={this.props.string} stringLength={this.props.stringLength} totalBlocks={this.props.totalBlocks} updateTotalBlocks={this.updateTotalBlocks} updateCTX={this.updateCTX}/>} />
