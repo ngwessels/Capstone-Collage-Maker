@@ -17,6 +17,7 @@ class CombineImages extends React.Component {
   }
 
   main(state, imagesPlaced) {
+    console.log(state.colors);
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     const row = state.width / state.value;
