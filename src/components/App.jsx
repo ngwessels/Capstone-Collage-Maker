@@ -188,15 +188,10 @@ export class App extends React.Component {
   }
 
   updateColors(info) {
-    let current;
-    if(this.props.colors) {
-      current = [this.props.colors, info];
-    } else {
-      current = [info];
-    }
+
     const action = {
       type: 'COLORS',
-      result: current,
+      result: info,
     }
     const { dispatch } = this.props;
     dispatch(action);

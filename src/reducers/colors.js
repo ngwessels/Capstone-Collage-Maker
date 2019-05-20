@@ -1,4 +1,4 @@
-export default (state = {},
+export default (state = null,
 action) => {
   switch (action.type) {
     case 'COLORS':

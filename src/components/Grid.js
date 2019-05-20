@@ -1,5 +1,5 @@
 let longestColors = [];
-
+let mainColors = [];
 
 export class Grid{
 
@@ -130,7 +130,9 @@ export class Grid{
         ctx.fillRect( x, y, 1, 1 );
       }
     }
-    updateColors(longest);
+    console.log('longest', longest)
+    mainColors.push(longest)
+    updateColors(mainColors);
   }
 
   // getColors gets pixel information from canvas

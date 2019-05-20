@@ -118,7 +118,7 @@ class Main extends React.Component {
     this.props.updateCTX(ctx);
     // const value = grid.findBestValue(width, height);
     // console.log(value);
-    const value = 200;
+    const value = 10;
     this.props.updateSize(width, height, value);
     const array = grid.getColors(canvasGap, c, ctx, img, width, height);
     this.props.updateArray(array);
