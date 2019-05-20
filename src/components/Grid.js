@@ -130,7 +130,6 @@ export class Grid{
         ctx.fillRect( x, y, 1, 1 );
       }
     }
-    console.log('longest', longest)
     mainColors.push(longest)
     updateColors(mainColors);
   }

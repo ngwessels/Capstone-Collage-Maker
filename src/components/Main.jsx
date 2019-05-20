@@ -28,9 +28,6 @@ class Main extends React.Component {
   }
 
 
-
-
-
   apiDominantImages(skip, num, randomobject) {
     let colors = ['Black', 'Blue', 'Brown', 'Gray', 'Green', 'Orange', 'Pink', 'Purple', 'Red', 'Teal', 'White', 'Yellow'];
     let objects = ['Dog', 'Cat', 'Horse', 'StarWars', 'Avengers', 'Wilderness', 'trees', 'ocean', 'sand', 'Birds', 'sun', 'vegtables', 'fire'];
@@ -117,8 +114,7 @@ class Main extends React.Component {
     ctx.drawImage(img,1,1);
     this.props.updateCTX(ctx);
     // const value = grid.findBestValue(width, height);
-    // console.log(value);
-    const value = 10;
+    const value = 200;
     this.props.updateSize(width, height, value);
     const array = grid.getColors(canvasGap, c, ctx, img, width, height);
     this.props.updateArray(array);

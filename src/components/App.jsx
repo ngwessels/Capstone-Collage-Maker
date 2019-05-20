@@ -74,7 +74,6 @@ export class App extends React.Component {
     const { dispatch } = this.props;
     dispatch(action);
     let combine = new CombineImages();
-    console.log(this.props.masterState)
     combine.main(this.props.masterState, this.imagesPlaced);
 
   }
@@ -99,7 +98,6 @@ export class App extends React.Component {
       currentArray.push.apply(currentArray, info);
       currentString = currentArray;
     }
-    console.log(this.props.masterState.stringLength);
     if(this.props.masterState.stringLength = {}) {
       const num = 0 + add;
       const stringLengthAction = {
@@ -109,9 +107,7 @@ export class App extends React.Component {
       const { dispatch } = this.props;
       dispatch(stringLengthAction);
     }
-    console.log(this.props.masterState.stringLength);
     if(this.props.masterState.stringLength) {
-      console.log(this.props.masterState.stringLength, add);
       currentLength = this.props.masterState.stringLength + add
     }
     const stringAction = {
@@ -165,7 +161,6 @@ export class App extends React.Component {
       current = this.props.images;
       current = [current, info];
     } else {
-      console.log('works')
       current = [info];
     }
 
