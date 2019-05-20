@@ -28,11 +28,12 @@ import string from './string';
 import stringLength from './stringLength';
 import totalBlocks from './totalBlocks';
 import finished from './finished';
+import array from './array';
 import { combineReducers } from 'redux';
 
 
 const rootReducer = combineReducers({
-  array: mainPic,
+  array: array,
   blocks: blocks,
   colors: colors,
   images: images,

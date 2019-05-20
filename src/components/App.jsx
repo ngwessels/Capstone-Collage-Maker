@@ -63,11 +63,10 @@ export class App extends React.Component {
     const { dispatch } = this.props;
     dispatch(action);
     let beauty = new Beautify();
-    beauty.main(this.state);
+    beauty.main(this.props.masterState);
   }
 
   blocksFinished() {
-    console.log('is working')
     const action = {
       type: 'BLOCKSFINISHED',
       result: true,
@@ -75,7 +74,8 @@ export class App extends React.Component {
     const { dispatch } = this.props;
     dispatch(action);
     let combine = new CombineImages();
-    combine.main(this.state, this.imagesPlaced);
+    console.log(this.props.masterState)
+    combine.main(this.props.masterState, this.imagesPlaced);
 
   }
 
@@ -91,15 +91,28 @@ export class App extends React.Component {
   updateImage(info, add) {
     let currentString;
     let currentLength;
-    if(this.props.string) {
-      currentString = [this.props.string];
+    const arrayLength = this.props.masterState.string.length;
+    if(arrayLength == undefined) {
+      currentString = info;
     } else {
-      currentString = [info];
+      let currentArray = this.props.masterState.string;
+      currentArray.push.apply(currentArray, info);
+      currentString = currentArray;
     }
-    if(!this.props.stringLength) {
-      currentLength = 0 + add
-    } else {
-      currentLength = this.props.stringLength + add;
+    console.log(this.props.masterState.stringLength);
+    if(this.props.masterState.stringLength = {}) {
+      const num = 0 + add;
+      const stringLengthAction = {
+        type: 'IMAGESTRINGLENGTH',
+        result: num,
+      }
+      const { dispatch } = this.props;
+      dispatch(stringLengthAction);
+    }
+    console.log(this.props.masterState.stringLength);
+    if(this.props.masterState.stringLength) {
+      console.log(this.props.masterState.stringLength, add);
+      currentLength = this.props.masterState.stringLength + add
     }
     const stringAction = {
       type: 'IMAGESTRING',
@@ -116,7 +129,7 @@ export class App extends React.Component {
 
   runBlockImages() {
     let blockImage = new BlockImages();
-    blockImage.dominantImages(this.props.string, this.props.value, this.props.array, this.updateImages, this.blocksFinished);
+    blockImage.dominantImages(this.props.masterState.string, this.props.masterState.value, this.props.masterState.array, this.updateImages, this.blocksFinished);
 
   }
 
@@ -148,11 +161,11 @@ export class App extends React.Component {
 
   updateImages(info) {
     let current;
-    console.log('is calling')
     if(this.props.images) {
       current = this.props.images;
       current = [current, info];
     } else {
+      console.log('works')
       current = [info];
     }
 
@@ -189,7 +202,6 @@ export class App extends React.Component {
     dispatch(action);
   }
   updateSize(width, height, value) {
-    console.log(width, height, value);
     const widthAction = {
       type: 'WIDTH',
       result: width,
@@ -210,7 +222,6 @@ export class App extends React.Component {
 
 
   render() {
-    console.log(this.props);
     return (
       <Switch>
         <Route path='/' render={()=><Main blocks={this.props.blocks} array={this.props.array} colors={this.props.colors} updateArray={this.updateArray} updateBlocks={this.updateBlocks} updateColors={this.updateColors} isFinished={this.isFinished} updateImages={this.updateImages} updateSize={this.updateSize} updateImage={this.updateImage} string={this.props.string} stringLength={this.props.stringLength} totalBlocks={this.props.totalBlocks} updateTotalBlocks={this.updateTotalBlocks} updateCTX={this.updateCTX}/>} />
