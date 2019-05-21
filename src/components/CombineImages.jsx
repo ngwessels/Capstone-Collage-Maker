@@ -51,7 +51,7 @@ class CombineImages extends React.Component {
         const red = mainRed - apiImageRed;
         const green = mainGreen - apiImageGreen;
         const blue = mainBlue - apiImageBlue;
-        if((red < 20 && red > -20) && (green < 20 && green > -20) && (blue < 20 && blue > -20)) {
+        if((red < 30 && red > -30) && (green < 30 && green > -30) && (blue < 30 && blue > -30)) {
           console.log('Perfect Image At Block', block, 'Dominant Color is', dominantColor);
           console.log(images);
           this.placeImage(pixelValues, block, ctx, c, width, height, value);

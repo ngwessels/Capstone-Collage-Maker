@@ -22,9 +22,9 @@ export class Beautify {
         const currentBlue = instance[2];
         let pixelData = ctx.getImageData(x, y, 1, 1);
         const data = pixelData.data;
-        const newRed = ((currentRed + currentRed + data[0]) / 3);
-        const newGreen = ((currentGreen + currentGreen + data[1]) / 3);
-        const newBlue = ((currentBlue + currentBlue + data[2]) / 3);
+        const newRed = ((currentRed + data[0]) / 2);
+        const newGreen = ((currentGreen + data[1]) / 2);
+        const newBlue = ((currentBlue + data[2]) / 2);
         const index = (x + y * imgData.width) * 4;
         imgData.data[index+0] = newRed;
         imgData.data[index+1] = newGreen;

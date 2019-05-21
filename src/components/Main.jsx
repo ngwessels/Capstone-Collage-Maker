@@ -35,10 +35,11 @@ class Main extends React.Component {
 
   apiDominantImages(skip, num, randomobject) {
     let colors = ['Black', 'Blue', 'Brown', 'Gray', 'Green', 'Orange', 'Pink', 'Purple', 'Red', 'Teal', 'White', 'Yellow'];
-    console.log(this.props.state.masterState)
     let objects = this.props.state.masterState.apiInformation;
+    console.log(objects);
     let currentColor = colors[num];
     const object = objects[randomobject];
+    console.log(object);
     var myHeaders = new Headers();
     myHeaders.append('Ocp-Apim-Subscription-Key', process.env.imageAPI);
     let that = this;
@@ -62,6 +63,8 @@ class Main extends React.Component {
         that.apiTotal(arrayLength);
       })
       .catch(err => {
+        console.log('Error on bing image api, should auto fix')
+        that.apiTotal(0);
       });
   }
 
@@ -70,6 +73,7 @@ class Main extends React.Component {
   }
 
   enoughCalled() {
+    console.log(this.state.enoughCalled, this.state.needed)
     if(this.state.enoughCalled > this.state.needed) {
       return true;
     } else {
@@ -79,7 +83,7 @@ class Main extends React.Component {
 
 
   apiTotal(e) {
-    console.log(this.state.enoughCalled + e);
+    console.log('call again')
     const current = this.state.enoughCalled;
     const newNum = current + e;
     this.setState({enoughCalled: newNum});
@@ -110,7 +114,6 @@ class Main extends React.Component {
 
   main() {
     const grid = new Grid;
-    console.log(this.props.state.masterState.imageURL[1].name)
     var xhr = new XMLHttpRequest();
     var img = document.getElementById('myPic');
     img.src = require(`../assets/images/${this.props.state.masterState.imageURL[1].name}`);
@@ -125,10 +128,10 @@ class Main extends React.Component {
       var c = document.getElementById('myCanvas');
       var ctx = c.getContext('2d');
       ctx.drawImage(img,1,1);
-      console.log(props);
       props.updateCTX(ctx);
       // const value = grid.findBestValue(width, height);
-      const value = 20;
+      const value = 200;
+      console.log('Grid size is', value, 'pixels')
       props.updateSize(width, height, value);
       const array = grid.getColors(canvasGap, c, ctx, img, width, height);
       props.updateArray(array);
@@ -140,8 +143,8 @@ class Main extends React.Component {
       props.updateTotalBlocks(totalBlocks);
       let imagesNeeded = ((width / value) * (height / value));
       imagesNeeded = imagesNeeded * 12;
+      console.log('Total Images Needed', imagesNeeded);
       that.needed(imagesNeeded);
-      console.log('Images Needed', imagesNeeded);
       that.getImages();
       let total = 0;
       let lastY = 0;
@@ -158,15 +161,11 @@ class Main extends React.Component {
   change(e) {
     let that = this;
     firebase.initializeApp(firebaseConfig);
-    console.log(e);
     var file = e.target.files[0];
-    console.log(file);
-    console.log(file);
     var storageRef = firebase.storage().ref(`images/${file.name}`);
     storageRef.put(file)
     setTimeout(function() {
       storageRef.getDownloadURL().then((url) => {
-        console.log(url)
         var data = null;
         var xhr = new XMLHttpRequest();
         // xhr.withCredentials = true;
@@ -174,11 +173,14 @@ class Main extends React.Component {
           if (this.readyState === 4) {
             const result = JSON.parse(this.responseText);
             let instance = result.result.tags;
+            console.log(instance);
             let array = [];
             let length = instance.length;
             for(let i = 0; i < length; i++) {
-              const current = instance[i].tag.en;
-              array.push(current);
+              if(instance[i].confidence > 51) {
+                const current = instance[i].tag.en;
+                array.push(current);
+              }
             }
             const action = {
               type: 'IMAGERESULT',
@@ -191,7 +193,6 @@ class Main extends React.Component {
             const { dispatch } = that.props.state;
             dispatch(action);
             dispatch(actionImage)
-            console.log(this.responseText)
             that.main();
           }
         });
@@ -207,7 +208,6 @@ class Main extends React.Component {
 
 
   render() {
-    console.log(this.props)
     let canvasStyle = {
     };
 
@@ -223,7 +223,8 @@ class Main extends React.Component {
       flexDirection: 'row',
       width: '100%',
       justifyContent: 'space-around',
-      margin: '0 auto'
+      margin: '0 auto',
+      flexWrap: 'wrap',
     };
 
     let button = {
@@ -235,7 +236,7 @@ class Main extends React.Component {
     };
 
     return (
-      <div style={{width: '100%', height: '9000vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+      <div style={{width: '100%', height: '4000vh', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <button style={button} onClick={this.main}>Click Me</button>
 
         <input type='file' id='fileButton' onChange={this.change}/>

@@ -7,10 +7,13 @@ export class Grid{
 
 
   findBestValue(width, height) {
-    let min = 5;
+    let min = 15;
+    let max = 30;
     let isGood = false;
     while(isGood == false) {
       if(width % min == 0 && height % min == 0) {
+        isGood = true;
+      } else if (min > max){
         isGood = true;
       }
       else {
