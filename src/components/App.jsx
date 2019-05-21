@@ -13,9 +13,9 @@ import { Beautify } from './Beautify';
 import { connect } from 'react-redux';
 const { c } = constants;
 import constants from './../constants';
-// const { firebaseConfig } = constants;
-import { firebaseConfig } from './../constants/firebaseConfig';
+const { firebaseConfig } = constants;
 import Firebase from 'firebase'
+import { ImageRecognition } from './../api/imageRecognition';
 
 export class App extends React.Component {
 
@@ -220,20 +220,25 @@ export class App extends React.Component {
     var file = e.target.files[0];
     console.log(file);
     var storageRef = firebase.storage().ref(`images/${file.name}`);
-    storageRef.put(file);
+    storageRef.put(file)
+    setTimeout(function() {
+      console.log(file.name)
+      storageRef.getDownloadURL().then((url) => {
+      ImageRecognition(url);
+      // imageR(url);
+
+    }).catch(function(error) {
+
+    });
+  }, 3000)
   }
 
 
   render() {
-    // firebase.initializeApp(firebaseConfig);
-    // const tickets = firebase.database().ref('tickets');
-    // tickets.push({
-    //   name: 'nate'
-    // })
 
-    // <input type='file' value='upload' id='fileButton' onChange={this.change}/>
     return (
       <div>
+        <input type='file' id='fileButton' onChange={this.change}/>
 
         <Switch>
           <Route path='/' render={()=><Main blocks={this.props.blocks} array={this.props.array} colors={this.props.colors} updateArray={this.updateArray} updateBlocks={this.updateBlocks} updateColors={this.updateColors} isFinished={this.isFinished} updateImages={this.updateImages} updateSize={this.updateSize} updateImage={this.updateImage} string={this.props.string} stringLength={this.props.stringLength} totalBlocks={this.props.totalBlocks} updateTotalBlocks={this.updateTotalBlocks} updateCTX={this.updateCTX}/>} />
