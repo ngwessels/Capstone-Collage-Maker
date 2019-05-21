@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Chart from 'chart.js'
 
 let blocks;
 let images;
@@ -31,6 +31,7 @@ class CombineImages extends React.Component {
     }
     console.log('done');
     imagesPlaced(true);
+    this.placeChart(state);
   }
 
   loop(x, y, structuredColors, block, value, ctx, c, width, height) {
@@ -114,6 +115,29 @@ class CombineImages extends React.Component {
       array.push(instance);
     }
     return array;
+  }
+
+  placeChart(state) {
+    const graph = document.getElementById('graph')
+    const ctx = graph.getContext('2d');
+    const option = {
+        scales: {
+            xAxes: [{
+                barPercentage: 0.5,
+                barThickness: 6,
+                maxBarThickness: 8,
+                minBarLength: 2,
+                gridLines: {
+                    offsetGridLines: true
+                }
+            }]
+        }
+    };
+    var myBarChart = new Chart(ctx, {
+    type: 'horizontalBar',
+    data: [10, 20],
+    options: option
+    });
   }
 
 }

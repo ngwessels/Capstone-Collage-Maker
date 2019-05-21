@@ -8,7 +8,7 @@ const { c } = constants;
 import constants from './../constants';
 const { firebaseConfig } = constants;
 import Firebase from 'firebase'
-
+firebase.initializeApp(firebaseConfig);
 
 
 class Main extends React.Component {
@@ -129,8 +129,8 @@ class Main extends React.Component {
       var ctx = c.getContext('2d');
       ctx.drawImage(img,1,1);
       props.updateCTX(ctx);
-      // const value = grid.findBestValue(width, height);
-      const value = 200;
+      const value = grid.findBestValue(width, height);
+      // const value = 200;
       console.log('Grid size is', value, 'pixels')
       props.updateSize(width, height, value);
       const array = grid.getColors(canvasGap, c, ctx, img, width, height);
@@ -142,7 +142,7 @@ class Main extends React.Component {
       const totalBlocks = blocks.length * blocks[0].length;
       props.updateTotalBlocks(totalBlocks);
       let imagesNeeded = ((width / value) * (height / value));
-      imagesNeeded = imagesNeeded * 12;
+      imagesNeeded = imagesNeeded * 16;
       console.log('Total Images Needed', imagesNeeded);
       that.needed(imagesNeeded);
       that.getImages();
@@ -160,7 +160,7 @@ class Main extends React.Component {
 
   change(e) {
     let that = this;
-    firebase.initializeApp(firebaseConfig);
+
     var file = e.target.files[0];
     var storageRef = firebase.storage().ref(`images/${file.name}`);
     storageRef.put(file)
@@ -209,9 +209,11 @@ class Main extends React.Component {
 
   render() {
     let canvasStyle = {
+      position: 'absolute'
     };
 
     let imgStyle = {
+      position: 'absolute'
     };
 
     let firstPicture = {
@@ -225,6 +227,9 @@ class Main extends React.Component {
       justifyContent: 'space-around',
       margin: '0 auto',
       flexWrap: 'wrap',
+      position: 'absolute',
+      zIndex: '2',
+      marginTop: '80px'
     };
 
     let button = {
@@ -235,11 +240,25 @@ class Main extends React.Component {
       marginTop: '40px'
     };
 
-    return (
-      <div style={{width: '100%', height: '4000vh', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-        <button style={button} onClick={this.main}>Click Me</button>
+    let upload = {
+      zIndex: '1',
+      position: 'absolute',
+      margin: '0',
+      color: 'white',
+      marginTop: '800px',
+      marginLeft: '2%'
+    }
 
-        <input type='file' id='fileButton' onChange={this.change}/>
+    let container = {
+      zIndex: '-1',
+      overflow: 'hidden',
+    }
+
+    return (
+      <div style={{width: '100%', height: '400vh', display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'black'}}>
+
+        <canvas id='graph' style={{position: 'absolute', marginTop: '600px', zIndex: '4'}}/>
+        <input style={upload} type='file' id='fileButton' onChange={this.change} />
 
 
 
@@ -247,8 +266,10 @@ class Main extends React.Component {
           <img style={imgStyle} src='' alt="" id="myPic"/>
           <canvas style={canvasStyle} onClick={this.main} id="myCanvas"/>
         </div>
-        <div id='secondCanvas'/>
-        <div id='firstPicture' />
+        <div style={container} >
+          <div id='secondCanvas' style={{zIndex: '-1'}}/>
+          <div id='firstPicture' style={{zIndex: '-1'}}/>
+        </div>
       </div>
     );
   }
