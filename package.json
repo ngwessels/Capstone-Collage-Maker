@@ -27,8 +27,10 @@
   "dependencies": {
     "aos": "^3.0.0-beta.6",
     "css-loader": "^2.1.1",
+    "file-system": "^2.2.2",
     "firebase": "^3.0.0",
     "moment": "^2.18.1",
+    "net": "^1.0.2",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -38,6 +40,7 @@
     "rxjs": "^6.4.0",
     "style-loader": "^0.23.1",
     "styled-jsx": "^3.2.1",
+    "unirest": "^0.6.0",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
@@ -52,6 +55,7 @@
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^2.29.0",
     "jest": "^20.0.4",
+    "json-loader": "^0.5.7",
     "node-sass": "^4.12.0",
     "react-hot-loader": "^3.0.0-beta.7",
     "sass-lint": "^1.12.1",

@@ -1,7 +1,7 @@
 export default (state = {},
 action) => {
   switch (action.type) {
-    case 'IMAGERESULT':
+    case 'IMAGEURL':
     return action.result;
     default:
     return state;

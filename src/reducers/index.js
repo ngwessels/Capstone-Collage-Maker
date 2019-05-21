@@ -13,7 +13,6 @@
 // All Code above is example
 
 
-import apiInformation from './api-information.js';
 import mainPic from './main-pic.js';
 import blocks from './blocks';
 import blocksFinished from './blocksFinished';
@@ -29,6 +28,8 @@ import stringLength from './stringLength';
 import totalBlocks from './totalBlocks';
 import finished from './finished';
 import array from './array';
+import apiInformation from './api-information';
+import imageURL from './image-url';
 import { combineReducers } from 'redux';
 
 
@@ -47,6 +48,8 @@ const rootReducer = combineReducers({
   blocksFinished: blocksFinished,
   imagesPlaced: imagesPlaced,
   ctx: ctx,
+  apiInformation: apiInformation,
+  imageURL: imageURL,
 })
 
 export default rootReducer;
