@@ -14,8 +14,8 @@ import { connect } from 'react-redux';
 const { c } = constants;
 import constants from './../constants';
 const { firebaseConfig } = constants;
-// import { firebaseConfig } from './../constants/firebaseConfig';
 import Firebase from 'firebase'
+import { ImageRecognition } from './../api/imageRecognition';
 
 export class App extends React.Component {
 
@@ -224,7 +224,8 @@ export class App extends React.Component {
     setTimeout(function() {
       console.log(file.name)
       storageRef.getDownloadURL().then((url) => {
-      alert(url);
+      ImageRecognition(url);
+      // imageR(url);
 
     }).catch(function(error) {
 
@@ -234,11 +235,6 @@ export class App extends React.Component {
 
 
   render() {
-    // firebase.initializeApp(firebaseConfig);
-    // const tickets = firebase.database().ref('tickets');
-    // tickets.push({
-    //   name: 'nate'
-    // })
 
     return (
       <div>
