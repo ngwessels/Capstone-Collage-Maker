@@ -7,7 +7,7 @@ export class Grid{
 
 
   findBestValue(width, height) {
-    let min = 15;
+    let min = 20;
     let max = 30;
     let isGood = false;
     while(isGood == false) {

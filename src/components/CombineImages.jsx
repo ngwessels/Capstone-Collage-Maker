@@ -22,7 +22,7 @@ class CombineImages extends React.Component {
     const column = state.height / state.value;
     const structuredColors = this.structuredColors(state.colors, row, column);
     let blocksTotal = (state.width / state.value) * (state.height / state.value);
-    for(let y = 0; y < column - 1; y++) {
+    for(let y = 0; y < column; y++) {
       for(let x = 0; x < row; x++) {
         const instance = structuredColors[y][x];
         const block = state.blocks[0][y][x];
@@ -32,6 +32,28 @@ class CombineImages extends React.Component {
     console.log('done');
     imagesPlaced(true);
     this.placeChart(state);
+    var canvas = document.getElementById("myCanvas");
+    var img    = canvas.toDataURL("image/jpg");
+    const url = img;
+    const fileName = 'collageImage.jpg';
+    function forceDownload(url, fileName){
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.responseType = "blob";
+      xhr.onload = function(){
+          var urlCreator = window.URL || window.webkitURL;
+          var imageUrl = urlCreator.createObjectURL(this.response);
+          var tag = document.createElement('a');
+          tag.href = imageUrl;
+          tag.download = fileName;
+          document.body.appendChild(tag);
+          tag.click();
+          document.body.removeChild(tag);
+      }
+      xhr.send();
+    }
+    forceDownload(img, 'collageImage.jpg')
+
   }
 
   loop(x, y, structuredColors, block, value, ctx, c, width, height) {

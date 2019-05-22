@@ -9,7 +9,7 @@ import constants from './../constants';
 const { firebaseConfig } = constants;
 import Firebase from 'firebase'
 firebase.initializeApp(firebaseConfig);
-
+let alreadyCalled = false
 
 class Main extends React.Component {
 
@@ -38,7 +38,8 @@ class Main extends React.Component {
     let objects = this.props.state.masterState.apiInformation;
     console.log(objects);
     let currentColor = colors[num];
-    const object = objects[randomobject];
+    let object = objects[randomobject];
+    object = object.replace(' ', '+')
     console.log(object);
     var myHeaders = new Headers();
     myHeaders.append('Ocp-Apim-Subscription-Key', process.env.imageAPI);
@@ -83,7 +84,6 @@ class Main extends React.Component {
 
 
   apiTotal(e) {
-    console.log('call again')
     const current = this.state.enoughCalled;
     const newNum = current + e;
     this.setState({enoughCalled: newNum});
@@ -93,8 +93,10 @@ class Main extends React.Component {
   callAgain() {
     if(this.state.enoughCalled < this.state.needed) {
       this.getImages();
-    } else {
+      console.log('call again')
+    } else if(alreadyCalled == false){
       this.props.isFinished(true);
+      alreadyCalled = true;
     }
   }
 
@@ -145,7 +147,11 @@ class Main extends React.Component {
       imagesNeeded = imagesNeeded * 16;
       console.log('Total Images Needed', imagesNeeded);
       that.needed(imagesNeeded);
-      that.getImages();
+      for(let i = 0; i < 150; i++) {
+        that.getImages();
+
+      }
+
       let total = 0;
       let lastY = 0;
       grid.createImage(yLength, xLength, blocks, grid, array, width, height, canvasGap, c, ctx, total, lastY, value, props.updateColors);
