@@ -167,8 +167,6 @@ class Main extends React.Component {
 
     }, 5000)
 
-
-
   }
 
 
