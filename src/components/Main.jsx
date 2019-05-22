@@ -7,7 +7,12 @@ import image from '../assets/images/bird.jpg';
 const { c } = constants;
 import constants from './../constants';
 const { firebaseConfig } = constants;
-import Firebase from 'firebase'
+import Firebase from 'firebase';
+import './masterStyles.scss';
+
+
+
+
 firebase.initializeApp(firebaseConfig);
 let alreadyCalled = false
 
@@ -122,6 +127,42 @@ class Main extends React.Component {
 
   }
 
+  resizeImage() {
+    const img = document.getElementById('myPic');
+    const height = img.clientHeight;
+    const width = img.clientWidth;
+    let isNewHeight;
+    let isNewWidth;
+
+    if(height % 20 != 0) {
+      const remainder = height % 20;
+      if(remainder > 10) {
+        const newHeight = 10 - remainder;
+        isNewHeight = height + newHeight;
+      } else {
+        const newHeight = 10 - remainder;
+        isNewHeight = height - newHeight;
+      }
+    } else {
+      isNewHeight = height;
+    }
+    if(width % 20 != 0) {
+      const remainder = height % 20;
+      if(remainder > 10) {
+        const newWidth = 10 - remainder;
+        isNewWidth = width + newWidth;
+      } else {
+        const newWidth = 10 - remainder;
+        isNewWidth = width - newWidth;
+      }
+    } else {
+      isNewWidth = width;
+    }
+    const size = [isNewHeight, isNewWidth];
+    console.log('Image Height', img.clientHeight, 'Image Width', img.clientWidth)
+    return size;
+  }
+
 
   main() {
     const grid = new Grid;
@@ -131,22 +172,23 @@ class Main extends React.Component {
     let that = this;
     const props = this.props;
     setTimeout(function() {
+      const newSize = that.resizeImage();
       var width = img.clientWidth;
       var height = img.clientHeight;
       let canvasGap = document.getElementById('myCanvas');
-      document.getElementById('myCanvas').width = width;
-      document.getElementById('myCanvas').height = height;
+      document.getElementById('myCanvas').width = newSize[1];
+      document.getElementById('myCanvas').height = newSize[0];
       var c = document.getElementById('myCanvas');
       var ctx = c.getContext('2d');
       ctx.drawImage(img,1,1);
       props.updateCTX(ctx);
-      const value = grid.findBestValue(width, height);
+      const value = grid.findBestValue(newSize[1], newSize[0]);
       // const value = 200;
       console.log('Grid size is', value, 'pixels')
-      props.updateSize(width, height, value);
-      const array = grid.getColors(canvasGap, c, ctx, img, width, height);
+      props.updateSize(newSize[1], newSize[0], value);
+      const array = grid.getColors(canvasGap, c, ctx, img, newSize[1], newSize[0]);
       props.updateArray(array);
-      const blocks = grid.getBlocks(array, value, width, height);
+      const blocks = grid.getBlocks(array, value, newSize[1], newSize[0]);
       props.updateBlocks(blocks);
       const yLength = blocks.length;
       const xLength = blocks[0].length;
@@ -155,6 +197,7 @@ class Main extends React.Component {
       let imagesNeeded = ((width / value) * (height / value));
       imagesNeeded = imagesNeeded * 16;
       console.log('Total Images Needed', imagesNeeded);
+      img.style.display = 'none';
       that.needed(imagesNeeded);
       for(let i = 0; i < 150; i++) {
         that.getImages();
@@ -163,7 +206,7 @@ class Main extends React.Component {
 
       let total = 0;
       let lastY = 0;
-      grid.createImage(yLength, xLength, blocks, grid, array, width, height, canvasGap, c, ctx, total, lastY, value, props.updateColors);
+      grid.createImage(yLength, xLength, blocks, grid, array, newSize[1], newSize[0], canvasGap, c, ctx, total, lastY, value, props.updateColors);
 
     }, 5000)
 
@@ -307,7 +350,7 @@ class Main extends React.Component {
       flexWrap: 'wrap',
       position: 'absolute',
       zIndex: '2',
-      marginTop: '200px'
+      marginTop: '600px'
     };
 
     let button = {
@@ -323,7 +366,7 @@ class Main extends React.Component {
       position: 'absolute',
       margin: '0',
       color: 'white',
-      marginTop: '800px',
+      marginTop: '300px',
       marginLeft: '2%'
     }
 
@@ -335,12 +378,12 @@ class Main extends React.Component {
     return (
       <div style={{width: '100%', height: '400vh', display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'black'}}>
         <progress id='progressBar' value="0" max="100" style={{width: '80%'}}></progress>
-        <input style={upload} type='file' id='fileButton' onChange={this.change} />
+        <input style={upload} className='upload' type='file' id='fileButton' onChange={this.change} />
+        <canvas id='graph' style={{position: 'absolute', marginTop: '1200px', zIndex: '0', marginTop: '100px', maxWidth: '800px', maxHeight: '500px', width: '60%', height: '50%', }}/>
         <div style={imageBlocks}>
           <img style={imgStyle} src='' alt="" id="myPic"/>
-          <canvas style={canvasStyle} onClick={this.main} id="myCanvas"/>
+          <canvas style={canvasStyle} id="myCanvas"/>
         </div>
-        <canvas id='graph' style={{position: 'absolute', marginTop: '1200px', zIndex: '0', marginTop: '900px', maxWidth: '800px', maxHeight: '500px', width: '60%', height: '50%', }}/>
         <div style={container} >
           <div id='secondCanvas' style={{zIndex: '-1'}}/>
           <div id='firstPicture' style={{zIndex: '-1'}}/>
