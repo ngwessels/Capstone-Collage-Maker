@@ -88,7 +88,7 @@ export class BlockImages{
         const colorLength = color.length;
         let isClose = false;
         for(let colorI = 0; colorI < colorLength; colorI++) {
-          if(red >= (color[colorI][0] - 10) && red <= (color[colorI][0] + 10) && green >= (color[colorI][1] - 10) && green <= (color[colorI][1] + 10) && blue >= (color[colorI][2] - 10) && blue <= (color[colorI][2] + 10)) {
+          if(red >= (color[colorI][0] - 20) && red <= (color[colorI][0] + 20) && green >= (color[colorI][1] - 20) && green <= (color[colorI][1] + 20) && blue >= (color[colorI][2] - 20) && blue <= (color[colorI][2] + 20)) {
             let totalColor = color[colorI][3];
             color[colorI][3] = totalColor + 1;
             isClose = true;
