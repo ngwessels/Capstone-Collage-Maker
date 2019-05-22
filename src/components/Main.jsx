@@ -18,6 +18,7 @@ class Main extends React.Component {
     this.state = {
       enoughCalled: 0,
       needed: 0,
+      progress: 0,
     };
 
     this.main = this.main.bind(this);
@@ -25,6 +26,7 @@ class Main extends React.Component {
     this.apiTotal = this.apiTotal.bind(this);
     this.needed = this.needed.bind(this);
     this.change = this.change.bind(this);
+    this.displayGraph = this.displayGraph.bind(this);
   }
 
   apiFinished(info) {
@@ -33,12 +35,11 @@ class Main extends React.Component {
   }
 
 
-  apiDominantImages(skip, num, randomobject) {
+  apiDominantImages(skip, num, randomObject) {
     let colors = ['Black', 'Blue', 'Brown', 'Gray', 'Green', 'Orange', 'Pink', 'Purple', 'Red', 'Teal', 'White', 'Yellow'];
-    let objects = this.props.state.masterState.apiInformation;
-    console.log(objects);
+    let object = this.props.state.masterState.apiInformation[randomObject][0];
+    console.log(object);
     let currentColor = colors[num];
-    let object = objects[randomobject];
     object = object.replace(' ', '+')
     console.log(object);
     var myHeaders = new Headers();
@@ -74,6 +75,9 @@ class Main extends React.Component {
   }
 
   enoughCalled() {
+    const current = this.state.progress;
+    const progress = document.getElementById('progressBar');
+    progress.value = (current + ((this.state.enoughCalled / this.state.needed) * 50))
     console.log(this.state.enoughCalled, this.state.needed)
     if(this.state.enoughCalled > this.state.needed) {
       return true;
@@ -95,7 +99,12 @@ class Main extends React.Component {
       this.getImages();
       console.log('call again')
     } else if(alreadyCalled == false){
-      this.props.isFinished(true);
+      const current = this.state.progress;
+      const progress = document.getElementById('progressBar');
+      const totalProgress = (current + ((this.state.enoughCalled / this.state.needed) * 30));
+      progress.value = (current + ((this.state.enoughCalled / this.state.needed) * 30))
+      this.state.progress = totalProgress;
+      this.props.isFinished(true, totalProgress);
       alreadyCalled = true;
     }
   }
@@ -165,6 +174,9 @@ class Main extends React.Component {
 
 
   change(e) {
+    const progressBar = document.getElementById('progressBar');
+    progressBar.value = 2;
+    document.getElementById('fileButton').style.display = 'none';
     let that = this;
 
     var file = e.target.files[0];
@@ -177,6 +189,7 @@ class Main extends React.Component {
         // xhr.withCredentials = true;
         xhr.addEventListener("readystatechange", function () {
           if (this.readyState === 4) {
+            progressBar.value = 5;
             const result = JSON.parse(this.responseText);
             let instance = result.result.tags;
             console.log(instance);
@@ -185,7 +198,8 @@ class Main extends React.Component {
             for(let i = 0; i < length; i++) {
               if(instance[i].confidence > 51) {
                 const current = instance[i].tag.en;
-                array.push(current);
+                const confidence = instance[i].confidence;
+                array.push([current, confidence]);
               }
             }
             const action = {
@@ -199,6 +213,7 @@ class Main extends React.Component {
             const { dispatch } = that.props.state;
             dispatch(action);
             dispatch(actionImage)
+            that.displayGraph();
             that.main();
           }
         });
@@ -213,7 +228,66 @@ class Main extends React.Component {
   }
 
 
+  displayGraph() {
+    const state = this.props.state.masterState.apiInformation;
+    console.log(state.length)
+    const length = state.length;
+    const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'violet', 'purple', 'white', 'lightred', 'lightorange', 'lightyellow', 'limegreen', 'lightgrey'];
+    let current = [];
+    let backgroundColor = [];
+    let currentData = [];
+    let currentLabels = [];
+    for(let i = 0; i < length; i++) {
+      const instance = state[i];
+      if(i <= 12) {
+        // currentData.push({labels: instance[0], data: [instance[1]], backgroundColor: colors[i]})
+        current.push(instance[1]);
+        backgroundColor.push(colors[i]);
+        currentLabels.push(instance[0])
+      }
+    }
+    this.state.progress = 10;
+    this.forceUpdate();
+    currentData.push({label: "What is in this Image?", data: current, backgroundColor: backgroundColor});
+    console.log(currentData)
+    console.log(currentLabels)
+    const graph = document.getElementById('graph')
+    const ctx = graph.getContext('2d');
+    const option = {
+      scales: {
+        xAxes: [{
+          barPercentage: 2,
+          barThickness: 20,
+          maxBarThickness: 20,
+          minBarLength: 2,
+          gridLines: {
+            offsetGridLines: true,
+            color: 'lightgrey'
+          }
+        }],
+        yAxes: [{
+          gridLines: {
+            color: 'lightgrey'
+          }
+        }]
+      }
+    };
+    var myBarChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: currentLabels,
+        datasets: currentData
+      },
+      options: option
+    });
+
+  }
+
+
   render() {
+    let that = this;
+
+
     let canvasStyle = {
       position: 'absolute'
     };
@@ -235,7 +309,7 @@ class Main extends React.Component {
       flexWrap: 'wrap',
       position: 'absolute',
       zIndex: '2',
-      marginTop: '1000px'
+      marginTop: '200px'
     };
 
     let button = {
@@ -262,16 +336,13 @@ class Main extends React.Component {
 
     return (
       <div style={{width: '100%', height: '400vh', display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'black'}}>
-
+        <progress id='progressBar' value="0" max="100" style={{width: '80%'}}></progress>
         <input style={upload} type='file' id='fileButton' onChange={this.change} />
-        <canvas id='graph' style={{position: 'absolute', marginTop: '600px', zIndex: '4', marginTop: '300px'}}/>
-
-
-
         <div style={imageBlocks}>
           <img style={imgStyle} src='' alt="" id="myPic"/>
           <canvas style={canvasStyle} onClick={this.main} id="myCanvas"/>
         </div>
+        <canvas id='graph' style={{position: 'absolute', marginTop: '1200px', zIndex: '0', marginTop: '900px', maxWidth: '800px', maxHeight: '500px', width: '60%', height: '50%', }}/>
         <div style={container} >
           <div id='secondCanvas' style={{zIndex: '-1'}}/>
           <div id='firstPicture' style={{zIndex: '-1'}}/>

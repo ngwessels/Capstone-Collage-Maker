@@ -13,25 +13,26 @@ class CombineImages extends React.Component {
 
   }
 
-  main(state, imagesPlaced) {
+  main(state, imagesPlaced, currentProgress) {
+    const progress = document.getElementById('progressBar');
     blocks = state.blocks;
     images = state.images;
     var c = document.getElementById('myCanvas');
     var ctx = c.getContext('2d');
     const row = state.width / state.value;
     const column = state.height / state.value;
+    progress.value = 70;
     const structuredColors = this.structuredColors(state.colors, row, column);
     let blocksTotal = (state.width / state.value) * (state.height / state.value);
     for(let y = 0; y < column; y++) {
       for(let x = 0; x < row; x++) {
         const instance = structuredColors[y][x];
         const block = state.blocks[0][y][x];
-        this.loop(x, y, instance, block, state.value, ctx, c, state.width, state.height);
+        this.loop(x, y, instance, block, state.value, ctx, c, state.width, state.height, progress, currentProgress);
       }
     }
     console.log('done');
     imagesPlaced(true);
-    this.placeChart(state);
     var canvas = document.getElementById("myCanvas");
     var img    = canvas.toDataURL("image/jpg");
     const url = img;
@@ -53,13 +54,17 @@ class CombineImages extends React.Component {
       xhr.send();
     }
     forceDownload(img, 'collageImage.jpg')
+    progress.value = 100;
+    progress.style.display = 'none';
 
   }
 
-  loop(x, y, structuredColors, block, value, ctx, c, width, height) {
+  loop(x, y, structuredColors, block, value, ctx, c, width, height, progress, currentProgress) {
     const newImageArray = [];
     const instanceLength = images[0].length;
     for(let i = 0; i < instanceLength; i++) {
+      const newProgress = ((i / instanceLength) * 10);
+      progress.value = currentProgress + newProgress;
       const instance = images[0][i];
       if(instance != images[0][0]) {
         const imageUrl = instance[0];
@@ -139,28 +144,7 @@ class CombineImages extends React.Component {
     return array;
   }
 
-  placeChart(state) {
-    const graph = document.getElementById('graph')
-    const ctx = graph.getContext('2d');
-    const option = {
-        scales: {
-            xAxes: [{
-                barPercentage: 0.5,
-                barThickness: 6,
-                maxBarThickness: 8,
-                minBarLength: 2,
-                gridLines: {
-                    offsetGridLines: true
-                }
-            }]
-        }
-    };
-    var myBarChart = new Chart(ctx, {
-    type: 'bar',
-    data: [10, 20],
-    options: option
-    });
-  }
+
 
 }
 

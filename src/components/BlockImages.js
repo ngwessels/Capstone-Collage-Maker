@@ -6,7 +6,7 @@ let total = 0;
 
 export class BlockImages{
 
-  dominantImages(imgArray, value, bigArray, updateImages, blocksFinished) {
+  dominantImages(imgArray, value, bigArray, updateImages, blocksFinished, progress) {
     let that = this;
     const length = imgArray.length;
     let array = [];
@@ -22,8 +22,11 @@ export class BlockImages{
         document.getElementById('secondCanvas').height = value;
       }
     }
+    const progressBar = document.getElementById('progressBar');
+    progressBar.value = progress + 10;
+    const newProgress = progress + 10;
     setTimeout(function() {
-      blocksFinished(true);
+      blocksFinished(true, newProgress);
 
 
     }, 50000);

@@ -47,7 +47,7 @@ export class App extends React.Component {
     this.blocksFinished = this.blocksFinished.bind(this);
     this.imagesPlaced = this.imagesPlaced.bind(this);
     this.updateCTX = this.updateCTX.bind(this);
-    
+
   }
 
   updateCTX(e) {
@@ -70,7 +70,7 @@ export class App extends React.Component {
     beauty.main(this.props.masterState);
   }
 
-  blocksFinished() {
+  blocksFinished(progress) {
     const action = {
       type: 'BLOCKSFINISHED',
       result: true,
@@ -78,7 +78,7 @@ export class App extends React.Component {
     const { dispatch } = this.props;
     dispatch(action);
     let combine = new CombineImages();
-    combine.main(this.props.masterState, this.imagesPlaced);
+    combine.main(this.props.masterState, this.imagesPlaced, progress);
 
   }
 
@@ -127,13 +127,13 @@ export class App extends React.Component {
     dispatch(stringLengthAction);
   }
 
-  runBlockImages() {
+  runBlockImages(progress) {
     let blockImage = new BlockImages();
-    blockImage.dominantImages(this.props.masterState.string, this.props.masterState.value, this.props.masterState.array, this.updateImages, this.blocksFinished);
+    blockImage.dominantImages(this.props.masterState.string, this.props.masterState.value, this.props.masterState.array, this.updateImages, this.blocksFinished, progress);
 
   }
 
-  isFinished(info) {
+  isFinished(info, progress) {
 
     const action = {
       type: 'ISFINISHED',
@@ -141,7 +141,7 @@ export class App extends React.Component {
     }
     const { dispatch } = this.props;
     dispatch(action);
-    this.runBlockImages();
+    this.runBlockImages(progress);
   }
 
   updateArray(info){
