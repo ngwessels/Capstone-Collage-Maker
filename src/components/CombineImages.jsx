@@ -14,6 +14,15 @@ class CombineImages extends React.Component {
   }
 
   main(state, imagesPlaced, currentProgress) {
+    const firstPicture = document.getElementById('firstPicture');
+    const secondCanvas = document.getElementById('secondCanvas');
+    var myNode = document.getElementById("foo");
+    while (firstPicture.firstChild) {
+      firstPicture.removeChild(firstPicture.firstChild);
+    }
+    while (secondCanvas.firstChild) {
+      secondCanvas.removeChild(secondCanvas.firstChild);
+    }
     const progress = document.getElementById('progressBar');
     blocks = state.blocks;
     images = state.images;
