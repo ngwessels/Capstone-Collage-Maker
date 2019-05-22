@@ -156,7 +156,7 @@ class CombineImages extends React.Component {
         }
     };
     var myBarChart = new Chart(ctx, {
-    type: 'horizontalBar',
+    type: 'bar',
     data: [10, 20],
     options: option
     });

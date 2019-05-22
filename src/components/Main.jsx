@@ -235,7 +235,7 @@ class Main extends React.Component {
       flexWrap: 'wrap',
       position: 'absolute',
       zIndex: '2',
-      marginTop: '80px'
+      marginTop: '1000px'
     };
 
     let button = {
@@ -263,8 +263,8 @@ class Main extends React.Component {
     return (
       <div style={{width: '100%', height: '400vh', display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'black'}}>
 
-        <canvas id='graph' style={{position: 'absolute', marginTop: '600px', zIndex: '4'}}/>
         <input style={upload} type='file' id='fileButton' onChange={this.change} />
+        <canvas id='graph' style={{position: 'absolute', marginTop: '600px', zIndex: '4', marginTop: '300px'}}/>
 
 
 
