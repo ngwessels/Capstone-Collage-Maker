@@ -17,22 +17,21 @@ export class BlockImages{
       const innerLength = imgArray[i].length;
       for(let e = 0; e < innerLength; e++) {
         let createCanvas = document.createElement(`canvas${i}`);
-        that.runImage(i, e, imgArray, value, imageBody, canvasBody, bigArray, updateImages);
+        that.runImage(i, e, imgArray, value, imageBody, canvasBody, bigArray, updateImages, length, blocksFinished, progress);
         document.getElementById('secondCanvas').width = value;
         document.getElementById('secondCanvas').height = value;
       }
     }
-    const progressBar = document.getElementById('progressBar');
-    progressBar.value = progress + 10;
-    const newProgress = progress + 10;
+
     setTimeout(function() {
+      const progressBar = document.getElementById('progressBar');
+      progressBar.value = progress + 10;
+      const newProgress = progress + 10;
       blocksFinished(true, newProgress);
-
-
-    }, 50000);
+    }, 65000);
   }
 
-  runImage(i, e, imgs, value, imageBody, canvasBody, array, updateImages) {
+  runImage(i, e, imgs, value, imageBody, canvasBody, array, updateImages, length, blocksFinished, progress) {
     let that = this;
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'blob'; //so you can access the response like a normal URL
@@ -64,7 +63,11 @@ export class BlockImages{
           const dominantColor = that.dominantColor(pictureColors, value);
           const instance = [currentImage.src, pictureColors, dominantColor];
           allImages.push(instance);
+
         };
+        currentImage.onerror = function() {
+          console.log('error')
+        }
       }
     };
     total++;

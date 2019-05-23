@@ -137,29 +137,30 @@ class Main extends React.Component {
     if(height % 20 != 0) {
       const remainder = height % 20;
       if(remainder > 10) {
-        const newHeight = 10 - remainder;
+        const newHeight = 20 - remainder;
         isNewHeight = height + newHeight;
       } else {
         const newHeight = 10 - remainder;
-        isNewHeight = height - newHeight;
+        console.log(remainder)
+        isNewHeight = height - remainder;
+        console.log(isNewHeight)
       }
     } else {
       isNewHeight = height;
     }
     if(width % 20 != 0) {
-      const remainder = height % 20;
+      const remainder = width % 20;
       if(remainder > 10) {
-        const newWidth = 10 - remainder;
+        const newWidth = 20 - remainder;
         isNewWidth = width + newWidth;
       } else {
-        const newWidth = 10 - remainder;
-        isNewWidth = width - newWidth;
+        isNewWidth = width - remainder;
       }
     } else {
       isNewWidth = width;
     }
     const size = [isNewHeight, isNewWidth];
-    console.log('Image Height', img.clientHeight, 'Image Width', img.clientWidth)
+    console.log('Image Height', isNewHeight, 'Image Width', isNewWidth)
     return size;
   }
 
@@ -195,7 +196,7 @@ class Main extends React.Component {
       const totalBlocks = blocks.length * blocks[0].length;
       props.updateTotalBlocks(totalBlocks);
       let imagesNeeded = ((width / value) * (height / value));
-      imagesNeeded = imagesNeeded * 16;
+      imagesNeeded = imagesNeeded * 20;
       console.log('Total Images Needed', imagesNeeded);
       img.style.display = 'none';
       that.needed(imagesNeeded);
@@ -215,6 +216,8 @@ class Main extends React.Component {
 
 
   change(e) {
+    document.getElementById('blackBackground').style.display = 'block';
+    this.background();
     const progressBar = document.getElementById('progressBar');
     progressBar.value = 2;
     document.getElementById('fileButton').style.display = 'none';
@@ -325,9 +328,117 @@ class Main extends React.Component {
   }
 
 
+  background() {
+  var ww = window.innerWidth;
+  let wh = window.innerHeight;
+  const canvas = document.getElementById("scene");
+  const ctx = canvas.getContext("2d");
+  const amount = 1000;
+  const mouse = {
+    x: null,
+    y: null
+  };
+  let particles = []
+  const colors = ["#005572", "#006573", "#008B8D", "#81BEAA", "#F4D4AD", "#81BEAA", "#008B8D", "#006573", "#005572"];
+
+ctx.canvas.width = ww;
+ctx.canvas.height = wh;
+
+function init() {
+  for (var i = 0; i < amount; i++) {
+    particles.push(new Particle(i));
+  }
+
+  window.addEventListener("click", reset);
+  window.addEventListener("mousemove", onMouseMove);
+  window.onresize = onResize;
+
+  requestAnimationFrame(render);
+}
+
+function Particle(i) {
+
+  this.x = ((ww / amount) * i) + ((Math.random() - 0.5) * 100);
+  this.y = Math.random() * wh;
+  this.speed = Math.random() / 1 + 0.05;
+  this.radius = (Math.random() * 2 + 1) / 5;
+  this.colour = "hsl(" + ((360 / amount) * i) + ",50%,50%)";
+  this.colour = colors[Math.floor(this.x / (ww / 9))];
+
+  return this;
+
+}
+
+Particle.prototype.render = function(a) {
+
+  ctx.fillStyle = this.colour;
+  if (mouse.x) {
+    var dist = distance(mouse.x, mouse.y, this.x, this.y);
+  }
+  if (dist < 60) {
+    drawLine(this.x, this.y, this.colour);
+  }
+  this.y += this.speed;
+  if (this.y >= (wh + this.radius)) {
+    this.y = (-this.radius);
+  }
+  this.radius = this.radius;
+  ctx.globalAlpha = 0.08;
+  ctx.beginPath();
+  ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+  ctx.fill();
+
+}
+
+function drawLine(x, y, colour) {
+  ctx.strokeStyle = colour;
+  ctx.globalAlpha = 0.2;
+  ctx.beginPath();
+  ctx.moveTo(mouse.x, mouse.y);
+  ctx.lineTo(x, y);
+  ctx.stroke();
+}
+
+function distance(x1, y1, x2, y2) {
+  var xs = x2 - x1;
+  xs *= xs;
+
+  var ys = y2 - y1;
+  ys *= ys;
+
+  return Math.sqrt(xs + ys);
+}
+
+function reset() {
+  ctx.clearRect(0, 0, ww, wh);
+};
+
+function onResize() {
+  ww = window.innerWidth;
+  wh = window.innerHeight;
+  ctx.canvas.width = ww;
+  ctx.canvas.height = wh;
+};
+
+function onMouseMove(e) {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+};
+
+function render(a) {
+  requestAnimationFrame(render);
+
+  for (var i = 0; i < amount; i++) {
+    particles[i].render(a);
+  }
+};
+
+init();
+  }
+
+
   render() {
     let that = this;
-
 
     let canvasStyle = {
       position: 'absolute'
@@ -350,7 +461,7 @@ class Main extends React.Component {
       flexWrap: 'wrap',
       position: 'absolute',
       zIndex: '2',
-      marginTop: '600px'
+      marginTop: '700px'
     };
 
     let button = {
@@ -376,9 +487,16 @@ class Main extends React.Component {
     }
 
     return (
-      <div style={{width: '100%', height: '400vh', display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'black'}}>
+      <div id='catBackground' className='background' style={{width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'black', zIndex: '-5'}}>
+        <div id='blackBackground' style={{width: '100%', minHeight: '100vh', zIndex: '0', backgroundColor: 'black', position: 'absolute', display: 'none'}} />
+        <canvas id="scene"></canvas>
         <progress id='progressBar' value="0" max="100" style={{width: '80%'}}></progress>
-        <input style={upload} className='upload' type='file' id='fileButton' onChange={this.change} />
+
+
+          <div className="fileUpload btn btn-primary" id='fileButton'>
+            <span>Upload</span>
+            <input className='upload' type='file' onChange={this.change} />
+          </div>
         <canvas id='graph' style={{position: 'absolute', marginTop: '1200px', zIndex: '0', marginTop: '100px', maxWidth: '800px', maxHeight: '500px', width: '60%', height: '50%', }}/>
         <div style={imageBlocks}>
           <img style={imgStyle} src='' alt="" id="myPic"/>
