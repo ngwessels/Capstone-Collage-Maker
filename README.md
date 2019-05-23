@@ -52,12 +52,27 @@ Here is an example of what I am wanting this application to do! Im wanting to ma
 ### Sketch Planning Images
 ![Sketch Example](src/assets/images/sketch-example.png)
 
+### Real Example
+![Real Example]{src/assets/images/Real.png}
 
 ### Installation
-* Clone from https://github.com/ngwessels/Capstone-Part1-ColorPicker
+_Below are the steps to follow to install and use this application_
+  1. First Go into your terminal on your device and type `/cd desktop`
+  2. Second Clone from Github by typing `git clone https://github.com/ngwessels/Capstone-Collage-Maker`
+  3. After its done installing make sure you have NPM installed. If not go to this webpage `https://www.npmjs.com/get-npm`
+  4. Now type `cd Capstone-Collage-Maker`
+  5. Next type in `npm i`. This will take some time.
+  6. While waiting we need to get two api-keys: First go to `https://azure.microsoft.com/en-us/services/cognitive-services/bing-image-search-api/` press the `Try for Free` tab. And get your api-key.
+  7. Next api-key needed go to `https://imagga.com` and get your Image Recognition Authorization code there.
+  8. Now type `touch .env` into the your terminal
+  9. Go into your .env in your editor and paste the following in
+  `
+     imageAPI = "Your Bing Image Api here"
+     immaga = "Your immaga Authorization Here"
+  `
 
 ### Known Bugs
-* Many many bugs at this time. To many to count.
+* A few bugs known at this time. Most have to do with image aspect ratios, but temporary fix in currenlty
 
 ### Technologies Used
 * Bash scripts
@@ -65,6 +80,8 @@ Here is an example of what I am wanting this application to do! Im wanting to ma
 * Webpack
 * iMac
 * Atom
+* Bing Image APIs
+* imagga Image Recognition Api
 
 ### License
 Copyright (c) 2019 Nate Wessels, Epicodus

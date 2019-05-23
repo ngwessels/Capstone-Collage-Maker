@@ -259,7 +259,7 @@ class Main extends React.Component {
           }
         });
         xhr.open("GET", "https://api.imagga.com/v2/tags?image_url=" + encodeURIComponent(url));
-        xhr.setRequestHeader("authorization", "Basic YWNjXzlhNGFlMGQ4MjBiNzYzODo1NWUxZGE1YmZkMDljZTZmNTRmMDU2ZmVjNDY3YzI4OQ==");
+        xhr.setRequestHeader("authorization", process.env.immaga);
         // xhr.setRequestHeader('Access-Control-Allow-Origin', null)
         xhr.send(data);
     }).catch(function(error) {

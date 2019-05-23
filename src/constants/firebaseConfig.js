@@ -1,4 +1,4 @@
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyBmKi9fTG1-WgkeX7enCKHLUeOnmzzZnNU",
   authDomain: "capstone-project-afc47.firebaseapp.com",
   databaseURL: "https://capstone-project-afc47.firebaseio.com",
@@ -7,4 +7,5 @@ var firebaseConfig = {
   messagingSenderId: "600469855133",
   appId: "1:600469855133:web:edfdb9832b46cdf5"
 };
+
 export default firebaseConfig
