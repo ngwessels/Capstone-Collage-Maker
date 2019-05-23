@@ -70,6 +70,7 @@ _Below are the steps to follow to install and use this application_
      imageAPI = "Your Bing Image Api here"
      immaga = "Your immaga Authorization Here"
   `
+  10. Now type in `npm run start`. Program should auto launch on google chrome or another web browser
 
 ### Known Bugs
 * A few bugs known at this time. Most have to do with image aspect ratios, but temporary fix in currenlty
