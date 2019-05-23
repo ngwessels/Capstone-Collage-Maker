@@ -487,7 +487,7 @@ init();
     }
 
     return (
-      <div id='catBackground' className='background' style={{width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'black', zIndex: '-5'}}>
+      <div id='catBackground' className='background' style={{width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'black', zIndex: '-5'}}>
         <div id='blackBackground' style={{width: '100%', minHeight: '100vh', zIndex: '0', backgroundColor: 'black', position: 'absolute', display: 'none'}} />
         <canvas id="scene"></canvas>
         <progress id='progressBar' value="0" max="100" style={{width: '80%'}}></progress>
