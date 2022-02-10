@@ -57,7 +57,7 @@
     "html-webpack-plugin": "^2.29.0",
     "jest": "^20.0.4",
     "json-loader": "^0.5.7",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "react-hot-loader": "^3.0.0-beta.7",
     "sass-lint": "^1.12.1",
     "sass-loader": "^7.1.0",
