@@ -40,7 +40,7 @@
     "redux": "^3.7.2",
     "rxjs": "^6.4.0",
     "style-loader": "^0.23.1",
-    "styled-jsx": "^3.2.1",
+    "styled-jsx": "^5.1.0",
     "unirest": "^0.6.0",
     "uuid": "^3.2.1"
   },
@@ -54,7 +54,7 @@
     "eslint-loader": "^2.1.2",
     "eslint-plugin-react": "^7.12.4",
     "file-loader": "^1.1.11",
-    "html-webpack-plugin": "^2.29.0",
+    "html-webpack-plugin": "^5.5.0",
     "jest": "^20.0.4",
     "json-loader": "^0.5.7",
     "node-sass": "^4.12.0",
